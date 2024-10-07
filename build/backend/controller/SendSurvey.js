@@ -1,0 +1,10 @@
+
+class SendSurvey {
+  getClientDetails() {
+    
+  }
+
+  sendSurvey() {
+    
+  }
+}

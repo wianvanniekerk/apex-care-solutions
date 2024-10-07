@@ -1,0 +1,10 @@
+
+class DisplayComplaint {
+  getComplaintDetails() {
+    
+  }
+
+  addNote() {
+    
+  }
+}

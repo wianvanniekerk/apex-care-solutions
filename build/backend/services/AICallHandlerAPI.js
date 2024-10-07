@@ -1,0 +1,6 @@
+
+class AICallHandlerAPI {
+  static getInfo() {
+    
+  }
+}

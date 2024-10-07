@@ -1,0 +1,1 @@
+In cd /NodeProject -> npm install -> npm start

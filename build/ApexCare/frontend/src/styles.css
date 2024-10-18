@@ -1,0 +1,178 @@
+#main{
+  display: flex;
+  flex-direction: row;
+}
+
+.middle{
+  width: 100%;
+  margin-top:160px;
+  position: absolute;
+}
+
+.middle .back{
+  background-color: #4bb4ff;
+  color: white;
+  border-radius: 14px;
+  margin-left: 90%;
+}
+
+.box{
+  width: 1070px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: #E9F6FF !important;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content{
+  background-color: #E9F6FF;
+  display: flex;
+  flex-direction: row;
+}
+
+.left{
+  margin-right: 200px;
+}
+
+.left .input-field{
+  max-width: 200px;
+  min-width: 120px;
+  width: 200px;
+  min-height: 30px;
+  max-height:  120px;
+  height:  120px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: -20px;
+}
+
+.topInfo{
+  display: flex;
+  justify-content: space-between;
+}
+
+.topInfo .input-field{
+  width: 150px;
+  font-size: larger;
+}
+
+.input-field{
+  width: 550px;
+  padding: 10px;
+  margin: 10px ;
+  border-radius: 24px;
+  border: 1px solid #ccc;
+}
+
+.input-field-Big{
+  min-width: 220px;
+  max-width: 550px;
+  width: 550px;
+  min-height: 30px;
+  max-height: 200px;
+  height: 200px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 10px 0;
+  border-radius: 24px;
+  border: 1px solid #ccc;
+}
+
+
+
+.text-wrapper{
+  color: #ffffff;
+font-family: "Krona One-Regular", Helvetica;
+font-size: 16px;
+font-weight: 400;
+left: 63px;
+letter-spacing: 0;
+line-height: 16px;
+position: absolute;
+top: 140px;
+white-space: nowrap;
+width: 152px;
+}
+
+.textHeader{
+  color: #000000;
+  font-family: "Krona One-Regular", Helvetica;
+  font-size: 25px;
+  line-height: 30px;
+  width: 400px;
+  margin-left: 45px;
+}
+
+.Title{
+  color: #000000;
+  font-family: "Krona One-Regular", Helvetica;
+  font-size: 30px;
+  font-weight: 400;
+  right: 3%;
+  letter-spacing: 0;
+  line-height: 30px;
+  position: absolute;
+  text-align: center;
+  top: 36px;
+  width: 339px;
+}
+
+.apexcare{
+  height: 100px;
+  object-fit: cover;
+  position: absolute;
+  top: 12px;
+  left: 165px;
+}
+
+#navigation{
+  background-color:transparent;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+
+#navigation.show{
+  display: block;
+}
+
+.group{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #52adfc91;
+  height: 54px;
+  width: 360px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+.group:hover{
+  background-color: #fc52f691;
+}
+
+.nav{
+  background-color: rgba(255, 255, 255, 0);
+  margin-top: 30px;
+  width: 360px;
+  position: absolute;
+}
+
+#toolbox{
+  width: 80px;
+  height: 120px;
+  background-image: url('./assets/icons8-toolbox-64-1-1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+#toolbox.open{
+  width: 80px;
+  height: 120px;
+  background-image: url('./assets/toolboxOpen.png');
+}

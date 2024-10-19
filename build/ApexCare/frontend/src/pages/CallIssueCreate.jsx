@@ -113,7 +113,7 @@ const CallIssueCreate = () => {
                     name="Title"
                     type="text"
                     placeholder="Call Title"
-                    value={issueData.Title} //this stops me from editing the input so that I can set the Title
+                    value={issueData.Title} 
                     onChange={handleChange}
                     className="input-field"
                   />

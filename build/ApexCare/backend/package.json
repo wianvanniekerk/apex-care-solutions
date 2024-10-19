@@ -1,26 +1,16 @@
 {
   "name": "backend",
   "version": "1.0.0",
-<<<<<<< Updated upstream:build/backend/package.json
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
-=======
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> Stashed changes:build/ApexCare/backend/package.json
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-<<<<<<< Updated upstream:build/backend/package.json
-=======
     "@vonage/server-sdk": "^3.19.0",
->>>>>>> Stashed changes:build/ApexCare/backend/package.json
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.1",

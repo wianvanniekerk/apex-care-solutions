@@ -1,7 +1,9 @@
 import React from "react";
 import  Nav  from "../components/Nav";
-import { Grid2, Box } from '@mui/material';
+import { Grid2, Box, Typography } from '@mui/material';
 import { BarChart, PieChart } from '@mui/x-charts';
+import apexcare2 from "../assets/apexcare-2.png";
+import "../styles.css";
 
 const Home = () => {
   return (
@@ -15,24 +17,51 @@ const Home = () => {
             <section id="main">
             <Nav/>
             <section className="middle">
-      <Grid2 container spacing={2}>
-        <Grid2 item xs={6}>
-          <Box>
-            <BarChart data={/* data for bar chart */1} />
-            <p className="p">Customer Satisfaction Rates per Month</p>
+      <Grid2 container spacing={8}>
+        <Grid2 >
+          <Box className="barBox">
+          <p className="p">Customer Satisfaction Rates per Month</p>
+          <BarChart series={[
+              {data: [35, 44, 24, 34, 32, 16, 12, 17, 22, 35, 28]}
+            ]} height={290} width={500} xAxis={[
+              {data: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Dec'], scaleType: 'band'},
+            ]} barsize = {30}
+            margin={{top: 10, bottom: 30, left: 40, right: 10}}/>
+            
             <div className=".textHeader">Month</div>
           </Box>
         </Grid2>
-        <Grid2 item xs={6}>
-          <Box>
-            <BarChart data={/* data for bar chart */2} />
-            <p className="p">Customer Satisfaction Rates per Month</p>
+          <Box className="barBox">
+          <p className="p">Customer Satisfaction Rates per Month</p>
+          <BarChart series={[
+              {data: [15, 24, 34, 14, 22, 36, 22, 17, 12, 25, 18]}
+            ]} height={290} width={500} xAxis={[
+              {data: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Dec'], scaleType: 'band'},
+            ]} barsize = {30}
+            margin={{top: 10, bottom: 30, left: 40, right: 10}}/>
             <div className=".textHeader">Month</div>
           </Box>
-        </Grid2>
+        
+      <Grid2>
+      <p className="p">DataSet</p>
+        <PieChart series={[
+          {data: [
+            {id: 0, value: 10, label: 'Series A'},
+            {id: 1, value: 20, label: 'Series B'},
+            {id: 2, value: 15, label: 'Series C'},
+          ],},
+        ]} width={400} height={200} />
       </Grid2>
-      <Grid2 container justifyContent="center">
-        <PieChart data={/* data for pie chart */3} />
+      <Grid2>
+      <p className="p">DataSet</p>
+        <PieChart series={[
+          {data: [
+            {id: 0, value: 10, label: 'Series A'},
+            {id: 1, value: 20, label: 'Series B'},
+            {id: 2, value: 15, label: 'Series C'},
+          ],},
+        ]} width={400} height={200} />
+      </Grid2>
       </Grid2>
       </section>
     </section>

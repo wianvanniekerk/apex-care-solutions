@@ -44,7 +44,28 @@ app.get('/clients', async (req,res)=>{
 
 app.get('/technicians', async (req,res)=>{
     try{
-        const result = await sql.query("SELECT TechnicianID, Expertise, Phone, Area FROM Technician WHERE TechnicianID = '2'"); //technician ID needs to be handled
+        const result = await sql.query("SELECT TechnicianID,Name, Expertise, Phone, Area FROM Technician WHERE TechnicianID = '2'"); //technician ID needs to be handled
+        return res.json(result.recordset);
+    }
+    catch (err){
+        return res.json(err);
+    }
+});
+
+app.get('/technician/:id', async (req, res) => {
+    const TechnicianID = req.params.id;
+  
+    try {
+      const result = await sql.query`SELECT * FROM Technician WHERE TechnicianID = ${TechnicianID}`;
+      return res.json(result.recordset[0]);
+    } catch (err) {
+      return res.json(err);
+    }
+  });
+
+app.get('/Alltechnicians', async (req,res)=>{
+    try{
+        const result = await sql.query("SELECT TechnicianID,Name, Expertise, Phone, Area FROM Technician"); 
         return res.json(result.recordset);
     }
     catch (err){

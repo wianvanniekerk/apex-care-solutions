@@ -7,6 +7,8 @@ import ClientManagement from '../pages/ClientManagement';
 import CallDesk from '../pages/CallDesk';
 import Technicians from '../pages/Technicians';
 import CallIssueCreate  from '../pages/CallIssueCreate';
+import TechnicianDetails from '../pages/TechnicianDetails';
+import { LoginPage } from '../pages/Login';
 import Nav from './Nav';
 
 const AppRouter = () => {
@@ -14,6 +16,7 @@ const AppRouter = () => {
     <Router>
       <Nav />
       <Routes>
+        <Route path="" element={<LoginPage />}/>
           <Route path="home" element={<Home />} />
           <Route path="jobs-scheduled" element={<JobsScheduled />} />
           <Route path="service-packages" element={<ServicePackages />} />
@@ -21,6 +24,7 @@ const AppRouter = () => {
           <Route path="call-desk" element={<CallDesk />} />
           <Route path="call-desk/call-issue-create" element={<CallIssueCreate />} />
           <Route path="technicians" element={<Technicians />} />
+          <Route path="technicians/technician-details/:id" element={<TechnicianDetails />} />
       </Routes>
     </Router>
   );

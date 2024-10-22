@@ -2,12 +2,36 @@ const express = require('express');
 const sql = require('mssql');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 const { sendSMS } = require('./API');
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
+//Employee Login
+
+const employeeFile = "./model/employee.json";
+
+app.post("/login", (req, res) => {
+  const {username, password} = req.body;
+
+  fs.readFile(employeeFile, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).json({error: 'Error reading employee file'});
+    }
+    const employees = JSON.parse(data);
+    const employee = employees.find(e => e.username === username && e.password === password);
+
+    if(employee){
+        res.json({message: 'Login Successful'});
+    }else{
+        res.status(401).json({error: 'Invalid username or password'});
+    }
+  });
+});
+
+//Database
 const dbConfig = {
     user: 'wianvanniekerk_SQLLogin_1',
     password: 'bcfhki81fg',
@@ -71,6 +95,15 @@ app.get('/Alltechnicians', async (req,res)=>{
     catch (err){
         return res.json(err);
     }
+});
+
+app.get('/TechAreas', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT DISTINCT Area, Expertise FROM Technician");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
 });
 
 app.get('/serviceAgreements', async (req,res) => {

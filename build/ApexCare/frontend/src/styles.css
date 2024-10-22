@@ -258,6 +258,8 @@ width: 152px;
 .technicians .middle{
   display: flex;
   flex-direction: row;
+  height: 100%;
+  padding-bottom: 30px;
 }
 
 
@@ -266,9 +268,14 @@ width: 152px;
   flex-direction: column;
   margin-left: 10dvw;
   width: 990px;
-  height: 700px;
+  height: 100%;
   overflow: hidden;
   overflow-y: scroll;
+}
+
+#mainContent{
+  display: flex;
+  flex-direction: column;
 }
 /*################################################################################################*/
 /*TechnicianCards################################################################################################*/
@@ -288,7 +295,9 @@ width: 152px;
   display: flex;
   flex-direction: column;
   margin-left: 30px;
-  
+  height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 
@@ -311,11 +320,10 @@ width: 152px;
 /*################################################################################################*/
 /*Search Bar################################################################################################*/
 .searchBar{
-  display:inline-flex;
-  position: relative;
-  align-items: center;
-  margin: 2;
-  margin-bottom: 50px;
+ display: flex;
+ margin-left: 10dvw;
+ margin-bottom: 10px;
+  width: 990px;
 }
 
 .text{
@@ -333,7 +341,6 @@ width: 152px;
 /*Stars Rating################################################################################################*/
 .stars{
   display: flex;
-  margin-top: 70px;
   height: 120px;
 }
 

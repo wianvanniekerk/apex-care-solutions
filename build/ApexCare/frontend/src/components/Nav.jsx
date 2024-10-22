@@ -2,6 +2,12 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles.css';
+import homeIcon from "../assets/home.png";
+import tasksIcon from "../assets/tasks.png";
+import serviceIcon from "../assets/service.png";
+import clientIcon from "../assets/client.png";
+import phoneIcon from "../assets/phone.png";
+import toolsIcon from "../assets/tools.png";
 
 const Nav = () => {
 
@@ -22,27 +28,27 @@ const navigate = useNavigate();
       <div id="toolbox" alt="Toolbox"  onClick={() => {toggleNav(); toggleTool();}} className={isToolOpen ? 'open' : 'close'}></div>
       <div id="navigation" className={isNavVisible ? 'show' : 'hide'}>
         <div className="group" onClick={() => navigate('/home')}>
-        <img className="navimg" alt="Home" src="../assets/home.png" />
+        <img className="navimg" alt="Home" src={homeIcon} />
           <div className="textHeader">Home</div>
         </div>
         <div className="group" onClick={() => navigate('/jobs-scheduled')}>
-        <img className="navimg" alt="Tasks" src="../assets/tasks.png" />
+        <img className="navimg" alt="Tasks" src={tasksIcon} />
           <div className="textHeader">Jobs Scheduled</div>
         </div>
         <div className="group" onClick={() => navigate('/service-packages')}>
-        <img className="navimg" alt="Service" src="../assets/service.png" />
+        <img className="navimg" alt="Service" src={serviceIcon} />
           <div className="textHeader">Service Packages</div>
         </div>
         <div className="group" onClick={() => navigate('/client-management')}>
-        <img className="navimg" alt="Client" src="../assets/client.png" />
+        <img className="navimg" alt="Client" src={clientIcon} />
           <div className="textHeader">Client Management</div>
         </div>
         <div className="group" onClick={() => navigate('/call-desk')}>
-        <img className="navimg" alt="Phone" src="../assets/phone.png" />
+        <img className="navimg" alt="Phone" src={phoneIcon} />
           <div className="textHeader">Call Desk</div>
         </div>
         <div className="group" onClick={() => navigate('/technicians')}>
-        <img className="navimg" alt="Tools" src="../assets/tools.png" />
+        <img className="navimg" alt="Tools" src={toolsIcon} />
           <div className="textHeader">Technicians</div>
         </div>
       </div>

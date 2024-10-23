@@ -1,5 +1,4 @@
 import React from "react";
-import  Nav  from "../components/Nav";
 import { Grid2, Box, Typography } from '@mui/material';
 import { BarChart, PieChart } from '@mui/x-charts';
 import apexcare2 from "../assets/apexcare-2.png";
@@ -15,7 +14,6 @@ const Home = () => {
                 </div>
             </header>
             <section id="main">
-            <Nav/>
             <section className="middle">
       <Grid2 container spacing={8}>
         <Grid2 >

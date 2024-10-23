@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typography, Button, Card, CardContent } from "@mui/material";
 import apexcare2 from "../assets/apexcare-2.png";
 import task from "../assets/tasks.png";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles.css";
 
@@ -17,7 +18,7 @@ const CallIssueCreate = () => {
     Status: "Active",
     Priority: "",
   });
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetch("http://localhost:8081/clients")
       .then((res) => res.json())
@@ -72,6 +73,10 @@ const CallIssueCreate = () => {
       console.error("Error creating job:", error);
       alert("Error creating job");
     }
+  };
+
+  const handleButtonClick = () => {
+    navigate("/call-desk");
   };
 
   return (
@@ -172,7 +177,12 @@ const CallIssueCreate = () => {
               </div>
             </CardContent>
           </Card>
-          <Button variant="outlined" color="secondary" className="back">
+          <Button
+            variant="outlined"
+            color="secondary"
+            className="back"
+            onClick={handleButtonClick}
+          >
             Back
           </Button>
         </section>

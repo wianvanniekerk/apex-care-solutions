@@ -66,6 +66,52 @@ app.get('/clients', async (req,res)=>{
     }
 });
 
+app.get('/getclients', async (req,res)=>{
+  try{
+      const result = await sql.query("SELECT ClientID, Name, Email, Phone, Address, IsKeyClient FROM Client"); 
+      return res.json(result.recordset);
+  }
+  catch (err){
+      return res.json(err);
+  }
+});
+
+app.get('/clientIsKeyClient', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT DISTINCT IsKeyClient FROM Client");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
+});
+
+app.get('/Client/:id', async (req, res) => {
+  const ClientID = req.params.id;
+
+  try {
+    const result = await sql.query`SELECT * FROM Client WHERE ClientID = ${ClientID}`;
+    return res.json(result.recordset[0]);
+  } catch (err) {
+    return res.json(err);
+  }
+});
+
+app.delete('/Client/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await sql.query`DELETE FROM Client WHERE ClientID = ${id}`;
+    if (result.rowsAffected[0] > 0) {
+      res.json({ message: 'Client deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Client not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Error deleting client' });
+  }
+});
+
+
 app.get('/technicians', async (req,res)=>{
     try{
         const result = await sql.query("SELECT TechnicianID,Name, Expertise, Phone, Area FROM Technician WHERE TechnicianID = '2'"); //technician ID needs to be handled
@@ -106,6 +152,8 @@ app.get('/TechAreas', async(req,res) => {
   }
 });
 
+
+
 app.get('/serviceAgreements', async (req,res) => {
     try{
         const result = await sql.query("SELECT Period, Equipment, Renew, ServiceCost, Description FROM ServiceAgreement WHERE ClientID = '2' AND Status = 'Active' OR Status = 'Pending'");
@@ -113,6 +161,97 @@ app.get('/serviceAgreements', async (req,res) => {
     }catch (err){
         return res.json(err);
     }
+});
+
+app.get('/getService', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT * FROM ServiceAgreement ");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
+});
+
+app.get('/ServiceStatus', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT DISTINCT Status FROM ServiceAgreement");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
+});
+
+app.get('/ServiceRenew', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT DISTINCT Renew FROM ServiceAgreement");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
+});
+
+app.get('/service/:id', async (req, res) => {
+  const AgreementID = req.params.id;
+
+  try {
+    const result = await sql.query`SELECT * FROM ServiceAgreement WHERE AgreementID = ${AgreementID}`;
+    return res.json(result.recordset[0]);
+  } catch (err) {
+    return res.json(err);
+  }
+});
+
+app.get('/getJobs', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT j.JobID, j.Title, j.Description, j.Address, j.Status, j.Priority, t.Name FROM Job j INNER JOIN Technician t ON j.TechnicianID = t.TechnicianID ");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
+});
+
+app.get('/JobStatus', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT DISTINCT Status FROM Job");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
+});
+
+app.get('/JobPriority', async(req,res) => {
+  try{
+    const result = await sql.query("SELECT DISTINCT Priority FROM Job");
+    return res.json(result.recordset);
+  }catch(err){
+    return res.json(err);
+  }
+});
+
+app.get('/job/:id', async (req, res) => {
+  const JobID = req.params.id;
+
+  try {
+    const result = await sql.query`SELECT j.JobID, j.Title, j.Description, j.Address, j.Status, j.Priority, t.Name FROM Job j INNER JOIN Technician t ON j.TechnicianID = t.TechnicianID WHERE JobID = ${JobID}`;
+    return res.json(result.recordset[0]);
+  } catch (err) {
+    return res.json(err);
+  }
+});
+
+app.delete('/job/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await sql.query`DELETE FROM Job WHERE JobID = ${id}`;
+    if (result.rowsAffected[0] > 0) {
+      res.json({ message: 'Job deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Job not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Error deleting job' });
+  }
 });
 
 app.post('/add-job', async (req, res) => {

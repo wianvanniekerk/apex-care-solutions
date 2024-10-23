@@ -167,7 +167,6 @@ width: 152px;
 
 .nav {
   background-color: rgba(255, 255, 255, 0);
-  margin-top: 30px;
   width: 360px;
   position: absolute;
 }
@@ -351,10 +350,13 @@ width: 152px;
 .technicians .middle{
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 900px;
   padding-bottom: 30px;
 }
 
+#main{
+  margin-left: 0px;
+}
 
 .cards{
   display: flex;
@@ -371,12 +373,65 @@ width: 152px;
   flex-direction: column;
 }
 /*################################################################################################*/
-/*TechnicianCards################################################################################################*/
-.TechCard{
+/*Cards################################################################################################*/
+.blueCard{
+  cursor: pointer;
+  width: 80%;
+}
+.blueCard:hover{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.blueCard img{
+  width: 80px;
+  height: 90px;
+} 
+
+#level{
+  margin-right: -330px;
+}
+
+#bookmark{
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: -120px;
+}
+
+#edit{
+  background-color: #52ADFC;
+  background-image: url('./assets/edit.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 50px;
+  height: 50px;
+  margin-left: 15px;
+  border-radius: 100%;
   cursor: pointer;
 }
-.TechCard:hover{
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+
+
+#remove{
+  background-color: #FC5252;
+  background-image: url('./assets/remove.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 50px;
+  height: 50px;
+  margin-left: 15px;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.cardContainer{
+  display: flex;
+  width: 990px;
+  padding: 10px;
+}
+
+#cardButtons{
+  display: flex;
+  width:20%;
+  align-items: center;
 }
 /*################################################################################################*/
 
@@ -463,5 +518,76 @@ width: 152px;
 
 .technicianDetails .box{
   padding: 40px;
+}
+/*################################################################################################*/
+
+/*Jobs Scheduled ################################################################################################*/
+.Jobs .middle{
+  display: flex;
+  flex-direction: row;
+  height: 900px;
+  padding-bottom: 30px;
+}
+
+/*################################################################################################*/
+
+/* Job-Details ################################################################################################*/
+.jobDetails .mainInfo p{
+  margin-top: 40px;
+}
+
+.jobDetails .box{
+  padding: 40px;
+}
+
+.jobDetails .jobImg{
+  width: 250px;
+  margin-right: 50px;
+}
+/*################################################################################################*/
+/*Client Management ################################################################################################*/
+.clients .middle{
+  display: flex;
+  flex-direction: row;
+  height: 900px;
+  padding-bottom: 30px;
+}
+
+/*################################################################################################*/
+/* Client-Details ################################################################################################*/
+.ClientDetails .mainInfo p{
+  margin-top: 40px;
+}
+
+.ClientDetails .box{
+  padding: 40px;
+}
+
+.ClientDetails .jobImg{
+  width: 250px;
+  margin-right: 50px;
+}
+/*################################################################################################*/
+/*Service Packages ################################################################################################*/
+.Service .middle{
+  display: flex;
+  flex-direction: row;
+  height: 900px;
+  padding-bottom: 30px;
+}
+
+/*################################################################################################*/
+/* Service-Details ################################################################################################*/
+.ServiceDetails .mainInfo p{
+  margin-top: 40px;
+}
+
+.ServiceDetails .box{
+  padding: 40px;
+}
+
+.ServiceDetails .ServiceImg{
+  width: 250px;
+  margin-right: 50px;
 }
 /*################################################################################################*/

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Typography, TextField } from '@mui/material';
-import TechnicianCard from "../components/TechnicianCard";
+import Card from "../components/Card";
 import FilterCheck from "../components/checkbox";
 import apexcare2 from "../assets/apexcare-2.png";
 import technician from "../assets/apexcare-2-1.png";
@@ -10,7 +10,7 @@ import "../styles.css";
 const Technicians = () => {
 const [technicians, setTechnician] = useState([]);
 const [filteredTechnicians, setFilteredTechnicians] = useState([]);
-const [filters, setFilters] = useState({Area:[], rating:"", Expertise:[]});
+const [filters, setFilters] = useState({Area:[], rating:"", Expertise:[], Name:"" });
 const [technicianAreas, setTechnicianAreas] = useState([]);
 const navigate = useNavigate();
 
@@ -24,7 +24,6 @@ useEffect(() => {
     .then((technicians) => {setTechnician(technicians); setFilteredTechnicians(technicians);})
     .catch((err) => console.log(err));
 }, []);
-
 
 
 useEffect(() => {
@@ -42,7 +41,7 @@ const handleFilterChange = (event) => {
   const {name, value, checked} = event.target;
   setFilters((prevFilters) => {
     let newFilters = { ...prevFilters};
-    if(name === "Area" || name === "Expertise"){
+    if(name === "Area" || name === "Expertise" ){
       if (checked) {
         newFilters[name] = [...newFilters[name], value];
       }else{
@@ -69,22 +68,24 @@ const applyFilters = () => {
     filteredList = filteredList.filter((technician) => filters.Expertise.includes(technician.Expertise));
   }
 
+  if (filters.Name) {
+    filteredList = filteredList.filter((technician) => technician.Name.toLowerCase().includes(filters.Name.toLowerCase()));
+  }
+
   setFilteredTechnicians(filteredList);
 }
 
   return (
     <div className="technicians">
       
-<header className="header">
-        <div className="logoBox">
-          <img className="apexcare" alt="ApexCare" src={apexcare2} />
-          <Typography variant="h4" className="Title">
-            Technicians
-          </Typography>
-        </div>
-      </header>
+      <header className="header">
+                <div className="logoBox">
+                    <img className="apexcare" alt="ApexCare" src={apexcare2}/>
+                    <Typography variant="h4" className="Title">Technicians</Typography>
+                </div>
+            </header>
 
-      
+            <section id="main">
       <section className="middle">
         
         <div className="filter">
@@ -117,17 +118,22 @@ const applyFilters = () => {
 
       <section id="mainContent">
         <div className="searchBar" >
-            <TextField className="text" variant="outlined" placeholder="Search"> 
-            </TextField>
+            <TextField 
+            className="text" 
+            variant="outlined" 
+            placeholder="Search" 
+            name="Name"
+            value={filters.Name}
+            onChange={handleFilterChange}/> 
           </div>
 
         <div className="cards">
 
         {filteredTechnicians.map((d, i) => (
-            <TechnicianCard
+            <Card
               key={i}
               name={d.Name}
-              expertise={d.Expertise}
+              first={d.Expertise}
               img={technician}
               onClick={() => handleCardClick(d.TechnicianID)}
             />
@@ -136,7 +142,7 @@ const applyFilters = () => {
         </section>
         
       </section>
-      
+      </section>
     </div>
   );
 };

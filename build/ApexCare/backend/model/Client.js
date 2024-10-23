@@ -1,17 +1,24 @@
-
 class Client {
-  constructor(name, email, password, address, keyClient) {
+  constructor(clientID, name, email, phone, address, isKeyClient, password = null) {
+    this.clientID = clientID;
     this.name = name;
     this.email = email;
-    this.password = password;
+    this.phone = phone;
     this.address = address;
-    this.keyClient = keyClient;
-    this.equipment = [];
-    this.servicePackages = [];
-    this.serviceHistories = [];
+    this.isKeyClient = isKeyClient;
+    this.password = password;
   }
 
-  toString() {
-  
+  toJSON() {
+    return {
+      ClientID: this.clientID,
+      Name: this.name,
+      Email: this.email,
+      Phone: this.phone,
+      Address: this.address,
+      IsKeyClient: this.isKeyClient
+    };
   }
 }
+
+module.exports = Client;

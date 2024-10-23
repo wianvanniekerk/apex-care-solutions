@@ -4,15 +4,17 @@ import Card from "../components/Card";
 import FilterCheck from "../components/checkbox";
 import apexcare2 from "../assets/apexcare-2.png";
 import service from "../assets/service.png"
+import SpinnerImage from '../assets/faviconn.png';
 import { useNavigate } from "react-router-dom";
 import "../styles.css";
 
 const ServicePackages = () => {
   const [Service, setService] = useState([]);
 const [filteredService, setFilteredService] = useState([]);
-const [filters, setFilters] = useState({Status:[], Renew:[], Title:"" });
+const [filters, setFilters] = useState({Status:[], Renew:[], searchTerm: "" });
 const [ServiceStatus, setServiceStatus] = useState([]);
 const [serviceRenew, setserviceRenew] = useState([]);
+const [loading, setLoading] = useState({services: false});
 const navigate = useNavigate();
 
 const handleCardClick = (id) => {
@@ -25,10 +27,12 @@ const handleEditClick = (id) => {
 
 
 useEffect(() => {
+  setLoading({ services: true});
   fetch("http://localhost:8081/getService")
     .then((res) => res.json())
     .then((Service) => {setService(Service); setFilteredService(Service);})
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => setLoading({ services: false }));
 }, []);
 
 useEffect(() => {
@@ -75,9 +79,16 @@ const applyFilters = () => {
   if(filters.Renew.length > 0){
     filteredList = filteredList.filter((Service) => filters.Renew.includes(Service.Renew));
   }
-
-  if (filters.Title) {
-    filteredList = filteredList.filter((Service) => Service.Title.toLowerCase().includes(filters.Title.toLowerCase()));
+  
+  if (filters.searchTerm) {
+    const searchTerm = filters.searchTerm.toLowerCase();
+    filteredList = filteredList.filter((service) => 
+      (service.Equipment && service.Equipment.toLowerCase().includes(searchTerm)) ||
+      (service.Description && service.Description.toLowerCase().includes(searchTerm)) ||
+      (service.Period && service.Period.toLowerCase().includes(searchTerm)) ||
+      (service.Status && service.Status.toLowerCase().includes(searchTerm)) ||
+      (service.ServiceCost && service.ServiceCost.toString().includes(searchTerm))
+    );
   }
 
   setFilteredService(filteredList);
@@ -89,7 +100,7 @@ const applyFilters = () => {
       
       <header className="header">
                 <div className="logoBox">
-                    <img className="apexcare" alt="ApexCare" src={apexcare2}/>
+                    <a href="/home"><img className="apexcare" alt="ApexCare" src={apexcare2}/></a>
                     <Typography variant="h4" className="Title">Service Scheduled</Typography>
                 </div>
             </header>
@@ -131,14 +142,26 @@ const applyFilters = () => {
             className="text" 
             variant="outlined" 
             placeholder="Search" 
-            name="Title"
-            value={filters.Title}
-            onChange={handleFilterChange}/> 
-          </div>
+            name="searchTerm"
+            value={filters.searchTerm}
+            onChange={handleFilterChange}
+          /> 
+        </div>
 
         <div className="cards">
 
-        {filteredService.map((d, i) => (
+        {loading.services ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: '50vh',
+                      width: '50vw'
+                    }}>
+                    <img src={SpinnerImage} alt="Loading..." className="spinner-icon" />
+                  </div>
+              ) : (filteredService.map((d, i) => (
             <Card
               key={i}
               name={d.Equipment}
@@ -147,7 +170,7 @@ const applyFilters = () => {
               img={service}
               onClick={() => handleCardClick(d.AgreementID)}
             />
-          ))}
+          )))}
         </div>
         </section>
         

@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import FilterCheck from "../components/checkbox";
 import apexcare2 from "../assets/apexcare-2.png";
 import clientImg from "../assets/client.png"
+import SpinnerImage from '../assets/faviconn.png';
 import { useNavigate } from "react-router-dom";
 import "../styles.css";
 import axios from "axios";
@@ -11,7 +12,8 @@ import axios from "axios";
 const ClientManagement = () => {
 const [clients, setclients] = useState([]);
 const [filteredclients, setFilteredclients] = useState([]);
-const [filters, setFilters] = useState({IsKeyClient:[], Area:[], Title:"" });
+const [filters, setFilters] = useState({IsKeyClient:[], Area:[], searchTerm:"" });
+const [loading, setLoading] = useState({clients: false});
 const navigate = useNavigate();
 
 const handleCardClick = (id) => {
@@ -33,13 +35,13 @@ const fetchclients = async () => {
 };
 
 useEffect(() => {
+  setLoading({ clients: true});
   fetch("http://localhost:8081/getclients")
     .then((res) => res.json())
     .then((clients) => {setclients(clients); setFilteredclients(clients);})
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => setLoading({ clients: false })); 
 }, []);
-
-
 
 
 useEffect(() => {
@@ -73,6 +75,16 @@ const applyFilters = () => {
     filteredList = filteredList.filter((clients) => clients.Title.toLowerCase().includes(filters.Title.toLowerCase()));
   }
 
+  if (filters.searchTerm) {
+    const searchTerm = filters.searchTerm.toLowerCase();
+    filteredList = filteredList.filter((client) => 
+      client.Name.toLowerCase().includes(searchTerm) ||
+      client.Address.toLowerCase().includes(searchTerm) ||
+      (client.Email && client.Email.toLowerCase().includes(searchTerm)) ||
+      (client.Phone && client.Phone.toLowerCase().includes(searchTerm))
+    );
+  }
+
   setFilteredclients(filteredList);
 }
 
@@ -91,7 +103,7 @@ const remove = async(id) => {
       
       <header className="header">
                 <div className="logoBox">
-                    <img className="apexcare" alt="ApexCare" src={apexcare2}/>
+                    <a href="/home"><img className="apexcare" alt="ApexCare" src={apexcare2}/></a>
                     <Typography variant="h4" className="Title">Client Managament</Typography>
                 </div>
             </header>
@@ -126,14 +138,26 @@ const remove = async(id) => {
             className="text" 
             variant="outlined" 
             placeholder="Search" 
-            name="Title"
-            value={filters.Title}
-            onChange={handleFilterChange}/> 
+            name="searchTerm"
+            value={filters.searchTerm}
+            onChange={handleFilterChange}
+          /> 
           </div>
 
         <div className="cards">
 
-        {filteredclients.map((d, i) => (
+        {loading.clients ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: '50vh',
+                      width: '50vw'
+                    }}>
+                    <img src={SpinnerImage} alt="Loading..." className="spinner-icon" />
+                  </div>
+              ) : (filteredclients.map((d, i) => (
             <Card
               key={i}
               name={d.Name}
@@ -145,7 +169,7 @@ const remove = async(id) => {
               //remove={() => remove(d.ClientID)}
               //edit ={handleEditClick}
             />
-          ))}
+          )))}
         </div>
         </section>
         

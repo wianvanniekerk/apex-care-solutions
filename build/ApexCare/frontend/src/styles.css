@@ -119,6 +119,20 @@ width: 152px;
   width: 339px;
 }
 
+.dummyLogin{
+  color: #000000;
+  font-family: "Krona One-Regular", Helvetica;
+  font-size: 30px;
+  font-weight: 400;
+  left: 25rem;
+  letter-spacing: 0;
+  line-height: 30px;
+  position: absolute;
+  text-align: center;
+  top: 525px;
+  width: 339px;
+}
+
 .apexcare{
   height: 100px;
   object-fit: cover;
@@ -591,3 +605,19 @@ width: 152px;
   margin-right: 50px;
 }
 /*################################################################################################*/
+
+/* Page Loading */
+.spinner-icon {
+  width: 180px;
+  height: 180px;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

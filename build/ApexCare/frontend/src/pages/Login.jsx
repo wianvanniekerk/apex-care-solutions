@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import logo from "../assets/1 1.png";
 import axios from 'axios';
+import { Typography } from "@mui/material";
 import "../styles.css";
 
 export const LoginPage = () => {
@@ -41,6 +42,11 @@ export const LoginPage = () => {
 
   return (
     <div className="login-page">
+          <Typography className="dummyLogin">
+            Dummy Login <br/>
+            "username": "BobJohnson" <br/>
+            "password": "#1008007"
+          </Typography>
       <form onSubmit={handleSubmit}>
         <img className="element" alt="Element" src={logo} />
         <div>

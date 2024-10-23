@@ -4,6 +4,7 @@ import { Typography, Button, Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ClientImg from "../assets/client.png";
 import apexcare2 from "../assets/apexcare-2.png";
+import SpinnerImage from '../assets/faviconn.png';
 import axios from "axios";
 import "../styles.css";
 
@@ -24,9 +25,21 @@ const ClientDetails = () => {
       fetchClientDetails();
     }, [id]);
 
-    if(!Clients){
-      return <Typography>Loading ...</Typography>;
-    }
+    if (!Clients) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            width: '100vw'
+          }}
+        >
+          <img src={SpinnerImage} alt="Loading..." className="spinner-icon" />
+        </div>
+      );
+    } 
 
     const handleButtonClick = () => {
          navigate("/client-management");
@@ -43,7 +56,7 @@ const ClientDetails = () => {
 
       <header className="header">
         <div className="logoBox">
-          <img className="apexcare" alt="ApexCare" src={apexcare2} />
+          <a href="/home"><img className="apexcare" alt="ApexCare" src={apexcare2} /></a>
           <Typography variant="h4" className="Title">
             Client Details
           </Typography>
@@ -54,8 +67,6 @@ const ClientDetails = () => {
       <section className="middle">
       <Card className="box">
       <CardContent className="content">
-        
-
        
         <img className="techImg" alt="Client" src={ClientImg} />
         <div className="mainInfo">

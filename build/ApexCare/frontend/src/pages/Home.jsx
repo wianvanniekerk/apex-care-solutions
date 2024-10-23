@@ -9,7 +9,7 @@ const Home = () => {
     <div className="home-page">
        <header className="header">
                 <div className="logoBox">
-                    <img className="apexcare" alt="ApexCare" src={apexcare2}/>
+                    <a href="/home"><img className="apexcare" alt="ApexCare" src={apexcare2}/></a>
                     <Typography variant="h4" className="Title">Home Page</Typography>
                 </div>
             </header>

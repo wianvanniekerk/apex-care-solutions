@@ -8,6 +8,7 @@ import Rating from "../components/stars";
 import red from "../assets/redBookmark.png";
 import yellow from "../assets/yellowBookmark.png";
 import blue from "../assets/blueBookmark.png";
+import SpinnerImage from '../assets/faviconn.png';
 import axios from "axios";
 import "../styles.css";
 
@@ -29,7 +30,19 @@ const JobDetails = () => {
   }, [id]);
 
   if (!jobs) {
-    return <Typography>Loading ...</Typography>;
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw'
+        }}
+      >
+        <img src={SpinnerImage} alt="Loading..." className="spinner-icon" />
+      </div>
+    );
   }
 
   const handleButtonClick = () => {
@@ -51,7 +64,7 @@ const JobDetails = () => {
     <div className="jobDetails">
       <header className="header">
         <div className="logoBox">
-          <img className="apexcare" alt="ApexCare" src={apexcare2} />
+          <a href="/home"><img className="apexcare" alt="ApexCare" src={apexcare2} /></a>
           <Typography variant="h4" className="Title">
             Job Details
           </Typography>

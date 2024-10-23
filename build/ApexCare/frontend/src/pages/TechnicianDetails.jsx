@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import technicianImg from "../assets/apexcare-2-1.png";
 import apexcare2 from "../assets/apexcare-2.png";
 import Rating from "../components/stars";
+import SpinnerImage from '../assets/faviconn.png';
 import axios from "axios";
 import "../styles.css";
 
@@ -26,8 +27,20 @@ const TechnicianDetails = () => {
     }, [id]);
 
     if(!technicians){
-      return <Typography>Loading ...</Typography>;
-    }
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            width: '100vw'
+          }}
+        >
+          <img src={SpinnerImage} alt="Loading..." className="spinner-icon" />
+        </div>
+      );
+    } 
 
     const handleButtonClick = () => {
          navigate("/technicians");
@@ -38,7 +51,7 @@ const TechnicianDetails = () => {
 
       <header className="header">
         <div className="logoBox">
-          <img className="apexcare" alt="ApexCare" src={apexcare2} />
+          <a href="/home"><img className="apexcare" alt="ApexCare" src={apexcare2} /></a>
           <Typography variant="h4" className="Title">
             Technician Details
           </Typography>

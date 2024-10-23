@@ -4,6 +4,7 @@ import { Typography, Button, Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import service from "../assets/service.png";
 import apexcare2 from "../assets/apexcare-2.png";
+import SpinnerImage from '../assets/faviconn.png';
 import axios from "axios";
 import "../styles.css";
 
@@ -25,7 +26,19 @@ const ServiceDetails = () => {
   }, [id]);
 
   if (!Services) {
-    return <Typography>Loading ...</Typography>;
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw'
+        }}
+      >
+        <img src={SpinnerImage} alt="Loading..." className="spinner-icon" />
+      </div>
+    );
   }
 
   const handleButtonClick = () => {
@@ -37,7 +50,7 @@ const ServiceDetails = () => {
     <div className="ServiceDetails">
       <header className="header">
         <div className="logoBox">
-          <img className="apexcare" alt="ApexCare" src={apexcare2} />
+          <a href="/home"><img className="apexcare" alt="ApexCare" src={apexcare2} /></a>
           <Typography variant="h4" className="Title">
             Service Details
           </Typography>

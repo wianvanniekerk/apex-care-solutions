@@ -49,32 +49,62 @@ router.delete('/Client/:id', async (req, res) => {
 router.post('/client-management/add-client', async (req, res) => {  
   try {
       const { name, email, address, contact, isKeyClient, password } = req.body;
-    
-      if (!name || !email || !address || !contact) {
-          return res.status(400).json({ 
-              error: 'All fields are required',
-              receivedData: req.body 
+ 
+      const missingFields = [];
+      if (!name) missingFields.push('Name');
+      if (!email) missingFields.push('Email');
+      if (!address) missingFields.push('Address');
+      if (!contact) missingFields.push('Contact');
+
+      if (missingFields.length > 0) {
+          return res.status(400).json({
+              error: `Missing required fields: ${missingFields.join(', ')}`
+          });
+      }
+
+      if (name.length < 2) {
+          return res.status(400).json({
+              error: 'Name must be at least 2 characters long'
+          });
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+          return res.status(400).json({
+              error: 'Please enter a valid email address'
+          });
+      }
+
+      if (contact.length < 10) {
+          return res.status(400).json({
+              error: 'Contact number must be at least 10 digits'
           });
       }
 
       const inserted = await clientManager.addNewClient(
-          name, 
-          email, 
-          address, 
-          contact, 
+          name,
+          email,
+          address,
+          contact,
           isKeyClient,
           password
       );
 
       if (inserted) {
-          return res.status(201).json({ message: 'Client added successfully' });
-      } else {
-          return res.status(500).json({ error: 'Failed to add client' });
+          return res.status(201).json({ 
+              message: 'Client added successfully' 
+          });
       }
+
   } catch (err) {
-      return res.status(500).json({ 
-          error: err.message,
-          stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      if (err.message.includes('email already exists')) {
+          return res.status(400).json({
+              error: 'A client with this email already exists'
+          });
+      }
+
+      return res.status(500).json({
+          error: 'Unable to add client. Please try again.'
       });
   }
 });

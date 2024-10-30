@@ -27,10 +27,78 @@ router.get('/Alltechnicians', async (req, res) => {
 
 router.get('/TechAreas', async (req, res) => {
   try {
-    const areas = await technicianManager.getTechnicianAreas();
-    return res.json(areas);
+      const result = await technicianManager.getTechnicianAreas();
+      return res.json(result);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
+  }
+});
+
+router.post('/technicians/add-technician', async (req, res) => {  
+  try {
+      const { name, email, contact, expertise, area } = req.body;
+ 
+      if (!name || !contact || !expertise || !area) {
+          const missingFields = [];
+          if (!name) missingFields.push('Name');
+          if (!email) missingFields.push('Email');
+          if (!contact) missingFields.push('Contact');
+          if (!expertise) missingFields.push('Expertise');
+          if (!area) missingFields.push('Area');
+          
+          return res.status(400).json({
+              error: `Missing required fields: ${missingFields.join(', ')}`
+          });
+      }
+
+      if (name.length < 2) {
+          return res.status(400).json({
+              error: 'Name must be at least 2 characters long'
+          });
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+          return res.status(400).json({
+              error: 'Please enter a valid email address'
+          });
+      }
+
+      if (contact.length < 10) {
+          return res.status(400).json({
+              error: 'Contact number must be at least 10 digits'
+          });
+      }
+
+      const inserted = await technicianManager.addNewTechnician(
+          name,
+          email,
+          contact,
+          expertise,
+          area
+      );
+
+      if (inserted) {
+          return res.status(201).json({ 
+              message: 'Technician added successfully' 
+          });
+      } else {
+          return res.status(500).json({ 
+              error: 'Failed to add technician' 
+          });
+      }
+
+  } catch (err) {
+    console.error(err);
+      if (err.number === 2627) {
+          return res.status(400).json({
+              error: 'This technician already exists in the system'
+          });
+      }
+
+      return res.status(500).json({
+          error: 'Error adding technician: ' + err.message
+      });
   }
 });
 

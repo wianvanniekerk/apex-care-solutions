@@ -714,3 +714,91 @@ width: 152px;
 .add-client-sumbit img {
   margin-left: 3rem;
 }
+/*################################################################################################*/
+
+/* Add Client */
+.add-technician-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  background-color: #4bb4ff;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  align-self: center;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-technician-button:hover {
+  background-color: #3a90d9;
+}
+
+.add-technician-icon {
+  width: 48px;
+  height: 48px;
+  margin-right: 1rem;
+}
+
+.add-technician-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.add-technician-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f3f3f3;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.add-technician-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.add-technician-field input {
+  border-radius: 5px;
+  width: 250px;
+  margin: 10px;
+  padding: 5px;
+}
+
+.add-technician-field .keyClient {
+  width: 30%;
+}
+
+.add-technician-sumbit {
+  background-color: #2fa3f7;
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: medium;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-technician-sumbit:hover {
+  background-color: #0095ff;
+}
+
+.add-technician-sumbit img {
+  margin-left: 3rem;
+}

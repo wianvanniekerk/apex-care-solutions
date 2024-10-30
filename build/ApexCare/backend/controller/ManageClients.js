@@ -73,16 +73,24 @@ class ManageClients {
 
   async addNewClient(name, email, address, contact, isKeyClient, password) {
     try {
+        const existingClient = await sql.query`
+            SELECT ClientID FROM Client 
+            WHERE Email = ${email}
+        `;
+        
+        if (existingClient.recordset.length > 0) {
+            throw new Error('A client with this email already exists');
+        }
+
         const result = await sql.query`
             INSERT INTO Client (Name, Email, Phone, Address, IsKeyClient, Password)
             VALUES (${name}, ${email}, ${contact}, ${address}, ${isKeyClient}, ${password})
         `;
         return result.rowsAffected[0] > 0;
     } catch (error) {
-        throw new Error('Error adding new client: ' + error.message);
+        throw error;
     }
 }
-
 }
 
 module.exports = ManageClients;

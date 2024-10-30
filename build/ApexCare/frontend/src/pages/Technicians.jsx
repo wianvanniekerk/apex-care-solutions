@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import FilterCheck from "../components/checkbox";
 import apexcare2 from "../assets/apexcare-2.png";
 import technician from "../assets/apexcare-2-1.png";
+import plusIcon from "../assets/plus.png";
 import SpinnerImage from '../assets/faviconn.png';
 import { useNavigate } from "react-router-dom";
 import "../styles.css";
@@ -12,8 +13,9 @@ const Technicians = () => {
 const [technicians, setTechnician] = useState([]);
 const [filteredTechnicians, setFilteredTechnicians] = useState([]);
 const [filters, setFilters] = useState({Area:[], rating:"", Expertise:[], Name:"" });
-const [technicianAreas, setTechnicianAreas] = useState([]);
 const [loading, setLoading] = useState({technicians: false});
+const [areas, setAreas] = useState([]);
+const [expertise, setExpertise] = useState([]);
 const navigate = useNavigate();
 
 const handleCardClick = (id) => {
@@ -29,12 +31,14 @@ useEffect(() => {
     .finally(() => setLoading({ technicians: false }));
 }, []);
 
-
 useEffect(() => {
   fetch("http://localhost:8081/TechAreas")
-    .then((res) => res.json())
-    .then((technicianAreas) => setTechnicianAreas(technicianAreas))
-    .catch((err) => console.log(err));
+      .then((res) => res.json())
+      .then((data) => {
+          setAreas(data.areas);
+          setExpertise(data.expertise);
+      })
+      .catch((err) => console.log(err));
 }, []);
 
 useEffect(() => {
@@ -95,32 +99,39 @@ const applyFilters = () => {
         <div className="filter">
           <div id="filterHead"><h2>Filters</h2></div>
           <div>
-          <h3 >Area</h3>
-          {technicianAreas.map((d,i) => (
-          <FilterCheck
-            key={i}
-            name="Area"
-            value={d.Area}
-            onChange={handleFilterChange}
-            label={d.Area}
-          />
-        ))}
+          <h3>Area</h3>
+            {areas.map((area, i) => (
+                <FilterCheck
+                    key={i}
+                    name="Area"
+                    value={area}
+                    onChange={handleFilterChange}
+                    label={area}
+                />
+            ))}
           
-          <h3 >Expertise</h3>
-          {technicianAreas.map((d,i) => (
-          <FilterCheck
-            key={i}
-            name="Expertise"
-            value={d.Expertise}
-            onChange={handleFilterChange}
-            label={d.Expertise}
-          />
-        ))}
-          </div>
+          <h3>Expertise</h3>
+            {expertise.map((exp, i) => (
+                <FilterCheck
+                    key={i}
+                    name="Expertise"
+                    value={exp}
+                    onChange={handleFilterChange}
+                    label={exp}
+                />
+            ))}
+        </div>
         </div>
         
 
       <section id="mainContent">
+      <button
+          className="add-technician-button"
+          onClick={() => navigate('/technicians/add-technician')}
+        >
+        <img className="add-technician-icon" alt="Plus" src={plusIcon} />
+          Add New Technician
+        </button>
         <div className="searchBar" >
             <TextField 
             className="text" 

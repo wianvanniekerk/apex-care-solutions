@@ -3,16 +3,15 @@ import { Typography } from "@mui/material";
 import plusIcon from "../assets/plus.png";
 import apexcare2 from "../assets/apexcare-2.png";
 
-const AddClient = () => {
+const AddTechnician = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        address: '',
-        contact: '',
-        isKeyClient: 'yes',
-        password: 'none'
+        contact: '', 
+        expertise: '', 
+        area: ''
     });
 
     const handleInputChange = (e) => {
@@ -25,21 +24,16 @@ const AddClient = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setError(null);
-    
-        const submissionData = {
-            ...formData,
-            isKeyClient: formData.isKeyClient === 'yes' ? 1 : 0
-        };
+        setLoading(true);
     
         try {
-            const response = await fetch('http://localhost:8081/client-management/add-client', {
+            const response = await fetch('http://localhost:8081/technicians/add-technician', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(submissionData)
+                body: JSON.stringify(formData)
             });
     
             const data = await response.json();
@@ -48,18 +42,17 @@ const AddClient = () => {
                 setError(data.error);
                 return;
             }
-    
+
             setFormData({
                 name: '',
                 email: '',
-                address: '',
                 contact: '',
-                isKeyClient: 'yes',
-                password: 'none'
+                expertise: '',
+                area: ''
             });
-    
-            window.location.href = '/client-management';
-    
+            
+            window.location.href = '/technicians';
+            
         } catch (err) {
             setError('Network error occurred. Please try again.');
         } finally {
@@ -68,13 +61,13 @@ const AddClient = () => {
     };
 
     return (    
-        <div className="add-client-container">
+        <div className="add-technician-container">
             <header className="header">
                 <div className="logoBox">
                     <a href="/home">
                         <img className="apexcare" alt="ApexCare" src={apexcare2} />
                     </a>
-                    <Typography variant="h4" className="Title">Add Client</Typography>
+                    <Typography variant="h4" className="Title">Add Technician</Typography>
                 </div>
             </header>
            
@@ -84,8 +77,8 @@ const AddClient = () => {
                 </div>
             )}
            
-            <form onSubmit={handleSubmit} className="add-client-form">
-                <div className='add-client-field'>
+            <form onSubmit={handleSubmit} className="add-technician-form">
+                <div className='add-technician-field'>
                     <label htmlFor="name">Full Name:</label>
                     <input
                         type="text"
@@ -96,8 +89,9 @@ const AddClient = () => {
                         required
                     />
                 </div>
-                <div className='add-client-field'>
-                    <label htmlFor="email">Email:</label>
+
+                <div className='add-technician-field'>
+                    <label htmlFor="name">Email:</label>
                     <input
                         type="email"
                         id="email"
@@ -107,18 +101,8 @@ const AddClient = () => {
                         required
                     />
                 </div>
-                <div className='add-client-field'>
-                    <label htmlFor="address">Address:</label>
-                    <input
-                        type="text"
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className='add-client-field'>
+               
+                <div className='add-technician-field'>
                     <label htmlFor="contact">Contact:</label>
                     <input
                         type="text"
@@ -129,36 +113,34 @@ const AddClient = () => {
                         required
                     />
                 </div>
-                <div className='add-client-field'>
-                    <label htmlFor="isKeyClient">Is Key Client?</label>
-                    <div>
-                        <input
-                            type="radio"
-                            id="isKeyClientYes"
-                            name="isKeyClient"
-                            value="yes"
-                            checked={formData.isKeyClient === 'yes'}
-                            onChange={handleInputChange}
-                            className="keyClient"
-                        />
-                        <label htmlFor="isKeyClientYes">Yes</label>
-                       
-                        <input
-                            type="radio"
-                            id="isKeyClientNo"
-                            name="isKeyClient"
-                            value="no"
-                            checked={formData.isKeyClient === 'no'}
-                            onChange={handleInputChange}
-                            className="keyClient"
-                        />
-                        <label htmlFor="isKeyClientNo">No</label>
-                    </div>
+
+                <div className='add-technician-field'>
+                    <label htmlFor="expertise">Expertise:</label>
+                    <input
+                        type="text"
+                        id="expertise"
+                        name="expertise"
+                        value={formData.expertise}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+
+                <div className='add-technician-field'>
+                    <label htmlFor="area">Area:</label>
+                    <input
+                        type="text"
+                        id="area"
+                        name="area"
+                        value={formData.area}
+                        onChange={handleInputChange}
+                        required
+                    />
                 </div>
                
                 <button 
                     type="submit" 
-                    className="add-client-sumbit"
+                    className="add-technician-sumbit"
                     disabled={loading}
                 >
                     <img className="plus-icon" alt="Plus" src={plusIcon} />
@@ -169,4 +151,4 @@ const AddClient = () => {
     );
 }
 
-export default AddClient;
+export default AddTechnician;

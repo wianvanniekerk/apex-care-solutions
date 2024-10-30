@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import FilterCheck from "../components/checkbox";
 import apexcare2 from "../assets/apexcare-2.png";
 import clientImg from "../assets/client.png"
+import plusIcon from "../assets/plus.png"
 import SpinnerImage from '../assets/faviconn.png';
 import { useNavigate } from "react-router-dom";
 import "../styles.css";
@@ -133,9 +134,16 @@ const remove = async(id) => {
         
 
       <section id="mainContent">
+        <button
+          className="add-client-button"
+          onClick={() => navigate('/client-management/add-client')}
+        >
+        <img className="add-client-icon" alt="Plus" src={plusIcon} />
+          Add New Client
+        </button>
         <div className="searchBar" >
             <TextField 
-            className="text" 
+            className="text"
             variant="outlined" 
             placeholder="Search" 
             name="searchTerm"

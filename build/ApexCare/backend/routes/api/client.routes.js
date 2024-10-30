@@ -46,4 +46,37 @@ router.delete('/Client/:id', async (req, res) => {
   }
 });
 
+router.post('/client-management/add-client', async (req, res) => {  
+  try {
+      const { name, email, address, contact, isKeyClient, password } = req.body;
+    
+      if (!name || !email || !address || !contact) {
+          return res.status(400).json({ 
+              error: 'All fields are required',
+              receivedData: req.body 
+          });
+      }
+
+      const inserted = await clientManager.addNewClient(
+          name, 
+          email, 
+          address, 
+          contact, 
+          isKeyClient,
+          password
+      );
+
+      if (inserted) {
+          return res.status(201).json({ message: 'Client added successfully' });
+      } else {
+          return res.status(500).json({ error: 'Failed to add client' });
+      }
+  } catch (err) {
+      return res.status(500).json({ 
+          error: err.message,
+          stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      });
+  }
+});
+
 module.exports = router;

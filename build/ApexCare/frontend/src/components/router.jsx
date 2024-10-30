@@ -7,6 +7,7 @@ import ClientManagement from '../pages/ClientManagement';
 import CallDesk from '../pages/CallDesk';
 import Technicians from '../pages/Technicians';
 import CallIssueCreate  from '../pages/CallIssueCreate';
+import AddClient  from '../pages/AddClient';
 import TechnicianDetails from '../pages/TechnicianDetails';
 import JobDetails from '../pages/JobDetails';
 import ClientDetails from '../pages/ClientDetails';
@@ -24,6 +25,7 @@ const AppRouter = () => {
           <Route path="jobs-scheduled" element={<JobsScheduled />} />
           <Route path="service-packages" element={<ServicePackages />} />
           <Route path="client-management" element={<ClientManagement />} />
+          <Route path="client-management/add-client" element={<AddClient />} />
           <Route path="call-desk" element={<CallDesk />} />
           <Route path="call-desk/call-issue-create" element={<CallIssueCreate />} />
           <Route path="technicians" element={<Technicians />} />

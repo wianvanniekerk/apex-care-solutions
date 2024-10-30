@@ -33,7 +33,7 @@ class ManageClients {
         SELECT ClientID, Name, Email, Phone, Address, IsKeyClient 
         FROM Client
       `;
-      
+
       return result.recordset.map(client => new Client(
         client.ClientID,
         client.Name,
@@ -70,6 +70,19 @@ class ManageClients {
       throw new Error('Error removing client: ' + error.message);
     }
   }
+
+  async addNewClient(name, email, address, contact, isKeyClient, password) {
+    try {
+        const result = await sql.query`
+            INSERT INTO Client (Name, Email, Phone, Address, IsKeyClient, Password)
+            VALUES (${name}, ${email}, ${contact}, ${address}, ${isKeyClient}, ${password})
+        `;
+        return result.rowsAffected[0] > 0;
+    } catch (error) {
+        throw new Error('Error adding new client: ' + error.message);
+    }
+}
+
 }
 
 module.exports = ManageClients;

@@ -153,13 +153,19 @@ const CallIssueCreate = () => {
     fetchTechnicianDetails();
   }, [selectedTechnicianId]);
 
+  const validatePriority = (Priority) => {
+    return ((Priority === "Low") || (Priority === "Medium") || (Priority === "High"));
+  }
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
+  
     setIssueData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
+  
 
   const handleClientChange = (event) => {
     setSelectedClientId(event.target.value);
@@ -170,6 +176,13 @@ const CallIssueCreate = () => {
   };
 
   const assignTechnician = async () => {
+    
+    // Add priority validation
+    if (!validatePriority(issueData.Priority)) {
+      alert("Priority must be Low, Medium, or High");
+      return;
+    }
+    
     if (!selectedClientId || !selectedTechnicianId) {
       alert("Please select both client and technician!");
       return;

@@ -23,11 +23,21 @@ const AddClient = () => {
         }));
     };
 
+    const validatePhoneNumber = (phone) => {
+        return phone.startsWith('+') && phone.length === 12;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-    
+        
+        if (!validatePhoneNumber(formData.contact)) {
+            setError('Invalid phone number. It should start with + and be 12 characters long.');
+            setLoading(false);
+            return;
+        }
+
         const submissionData = {
             ...formData,
             isKeyClient: formData.isKeyClient === 'yes' ? 1 : 0

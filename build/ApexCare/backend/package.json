@@ -17,7 +17,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@vonage/server-sdk": "^3.19.0",
     "body-parser": "^1.20.3",
@@ -32,5 +31,9 @@
     "@testing-library/react": "^16.0.1",
     "jest": "^29.7.0",
     "supertest": "^7.0.0"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "description": ""
 }

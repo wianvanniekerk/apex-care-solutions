@@ -82,6 +82,7 @@ const JobDetails = () => {
                 <p>{jobs.Address}</p>
                 <p>{jobs.Status}</p>
                 <p>{jobs.Name}</p>
+                <p>{jobs.Equipment}</p>
                 <p>Customer satisfaction rating</p>
                 <div className="stars">
                   <Rating />

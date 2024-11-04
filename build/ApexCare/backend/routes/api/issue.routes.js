@@ -33,9 +33,9 @@ router.get('/serviceAgreements/:id', async (req,res) => {
 });
 
 router.post('/add-job', async (req, res) => {
-    const { TechnicianID, ClientID, Title, Description, Address, Status, Priority } = req.body;
+    const { TechnicianID, ClientID, Title, Description, Address, Status, Priority, Equipment } = req.body;
 
-    if (!TechnicianID || !ClientID || !Title || !Description || !Address || !Status || !Priority) {
+    if (!TechnicianID || !ClientID || !Title || !Description || !Address || !Status || !Priority || Equipment) {
         return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -47,12 +47,13 @@ router.post('/add-job', async (req, res) => {
             description: Description,
             address: Address,
             status: Status,
-            priority: Priority
+            priority: Priority,
+            equipment: Equipment
         };
 
         const newJob = await jobManager.createJob(jobData);
 
-        const smsText = `New job: \nTitle: ${Title}\nDescription: ${Description}\nAddress: ${Address}\nPriority: ${Priority}`;
+        const smsText = `New job: \nTitle: ${Title}\nDescription: ${Description}\nAddress: ${Address}\nPriority: ${Priority} \nEquipment: ${Equipment}`;
         //comment this out if you want to test with the db and not send sms's the whole time and exceed our limit of sms's on the free version of Vonage
         //await sendSMS(smsText);   //send sms
 
@@ -61,5 +62,7 @@ router.post('/add-job', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+
 
 module.exports = router;

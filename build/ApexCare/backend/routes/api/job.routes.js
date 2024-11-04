@@ -33,7 +33,7 @@ router.get('/job/:id', async (req, res) => {
     const JobID = req.params.id;
   
     try {
-      const result = await sql.query`SELECT j.JobID, j.Title, j.Description, j.Address, j.Status, j.Priority, t.Name FROM Job j INNER JOIN Technician t ON j.TechnicianID = t.TechnicianID WHERE JobID = ${JobID}`;
+      const result = await sql.query`SELECT j.JobID, j.ClientID, j.TechnicianID , j.Title, j.Description, j.Address, j.Status, j.Priority, j.Equipment, t.Name FROM Job j INNER JOIN Technician t ON j.TechnicianID = t.TechnicianID WHERE JobID = ${JobID}`;
       return res.json(result.recordset[0]);
     } catch (err) {
       return res.json(err);
@@ -54,5 +54,26 @@ router.delete('/job/:id', async (req, res) => {
       res.status(500).json({ error: 'Error deleting job' });
     }
 });
+
+
+router.put('/update-job/:id', async (req, res) => {
+  const { id } = req.params;
+  const { TechnicianID, ClientID, Title, Description, Address, Status, Priority, Equipment } = req.body;
+
+  if (!TechnicianID || !ClientID || !Title || !Description || !Address || !Status || !Priority || !Equipment) { return res.status(400).json({ error: "All fields are required" }); }
+  try {
+    const result = await sql.query`
+                UPDATE Job SET TechnicianID = ${TechnicianID}, ClientID = ${ClientID}, Title = ${Title}, Description = ${Description}, Address = ${Address}, Status = ${Status}, Priority = ${Priority}, Equipment = ${Equipment}  WHERE jobID = ${id}`;
+    if (result.rowsAffected[0] > 0) {
+      res.json({ message: 'Job updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Job not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Error updating job' });
+  }
+});
+
+
 
 module.exports = router;

@@ -22,7 +22,7 @@ const handleCardClick = (id) => {
 };
 
 const handleEditClick = (id) => {
-  navigate(`./Client-edit/${id}`);
+  navigate(`./client-edit/${id}`);
 };
 
 const fetchclients = async () => {
@@ -172,10 +172,10 @@ const remove = async(id) => {
               first={d.Address}
               second={d.IsKeyClient}
               img={clientImg}
-              //buttons={true}
+              buttons={true}
               onClick={() => handleCardClick(d.ClientID)}
-              //remove={() => remove(d.ClientID)}
-              //edit ={handleEditClick}
+              remove={() => remove(d.ClientID)}
+              edit ={() => handleEditClick(d.ClientID)}
             />
           )))}
         </div>

@@ -1,36 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { 
-  Typography, 
-  Button, 
-  Card, 
-  CardContent,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box,
-  CircularProgress,
-  Alert
-} from "@mui/material";
+import { Typography, Button, Card, CardContent,FormControl,InputLabel, Select, MenuItem, Box, CircularProgress, Alert} from "@mui/material";
 import apexcare2 from "../assets/apexcare-2.png";
 import task from "../assets/tasks.png";
+import SpinnerImage from '../assets/faviconn.png';
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles.css";
 
-const CallIssueCreate = () => {
+const CallIssueUpdate = () => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedTechnicianId, setSelectedTechnicianId] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [allClients, setAllClients] = useState([]);
   const [allTechnicians, setAllTechnicians] = useState([]);
   const [client, setClient] = useState(null);
   const [technician, setTechnician] = useState(null);
-  const [service, setService] = useState(null);
+  const [status, setStatus] = useState(null);
+  const { id } = useParams();
+  const [jobs, setJobs] = useState(null);
   const [loading, setLoading] = useState({
     lists: false,
     client: false,
     technician: false,
-    service: false
+    updateJob: false
   });
   const [error, setError] = useState({
     lists: null,
@@ -48,6 +41,7 @@ const CallIssueCreate = () => {
   });
   
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -77,10 +71,26 @@ const CallIssueCreate = () => {
   }, []);
 
   useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8081/job/${id}`);
+        setJobs(response.data);
+
+        setSelectedClientId(response.data.ClientID);
+        setSelectedTechnicianId(response.data.TechnicianID);
+        setSelectedStatus(response.data.Status);
+      } catch (error) {
+        console.log("Error fetching job details: ", error);
+      }
+    };
+    fetchJobDetails();
+  }, [id]);
+
+
+  useEffect(() => {
     const fetchClientDetails = async () => {
       if (!selectedClientId) {
         setClient(null);
-        setService(null);
         return;
       }
 
@@ -102,7 +112,6 @@ const CallIssueCreate = () => {
         ]);
 
         setClient(clientResponse.data);
-        setService(serviceResponse.data);
         
         setIssueData(prevState => ({
           ...prevState,
@@ -134,6 +143,11 @@ const CallIssueCreate = () => {
         return;
       }
 
+      if (!selectedStatus) {
+        setStatus(null);
+        return;
+      }
+
       setLoading(prev => ({ ...prev, technician: true }));
       setError(prev => ({ ...prev, technician: null }));
 
@@ -153,6 +167,22 @@ const CallIssueCreate = () => {
 
     fetchTechnicianDetails();
   }, [selectedTechnicianId]);
+
+  if (!jobs) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw'
+        }}
+      >
+        <img src={SpinnerImage} alt="Loading..." className="spinner-icon" />
+      </div>
+    );
+  }
 
   const validatePriority = (Priority) => {
     return ((Priority === "Low") || (Priority === "Medium") || (Priority === "High"));
@@ -176,11 +206,19 @@ const CallIssueCreate = () => {
     setSelectedTechnicianId(event.target.value);
   };
 
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+
   const assignTechnician = async () => {
-    
+    setLoading(prev => ({ ...prev, updateJob: true}));
     // Add priority validation
-    if (!validatePriority(issueData.Priority)) {
-      alert("Priority must be Low, Medium, or High");
+    if((issueData.Priority === null) || (issueData.Priority === "")){
+      issueData.Priority = jobs.Priority;
+      return
+    }
+    else if (!validatePriority(issueData.Priority)) {
+      alert("Priority must be Low, Medium, or High : "+issueData.Priority);
       return;
     }
     
@@ -189,22 +227,45 @@ const CallIssueCreate = () => {
       return;
     }
 
+    if((issueData.Address === null) || (issueData.Address === "")){
+      issueData.Address = jobs.Address;
+      return
+    }
+
+    if((issueData.Title === null) || (issueData.Title === "")){
+      issueData.Title = jobs.Title;
+      return
+    }
+
+    if((issueData.Description === null) || (issueData.Description === "")){
+      issueData.Description = jobs.Description;
+      return
+    }
+
+    if((issueData.Equipment === null) || (issueData.Equipment === "")){
+      issueData.Equipment = jobs.Equipment;
+      return
+    }
+
     try {
-      const response = await axios.post("http://localhost:8081/add-job", {
+      const response = await axios.put(`http://localhost:8081/update-job/${id}`, {
         ...issueData,
         TechnicianID: selectedTechnicianId,
         ClientID: selectedClientId,
+        Status: selectedStatus,
       });
-      console.log("Job created successfully:", response.data);
-      alert("Job created successfully!");
+      console.log("Job updated successfully:", response.data);
+      alert("Job updated successfully!");
     } catch (error) {
-      console.error("Error creating job:", error);
-      alert("Error creating job");
+      console.error("Error updating job:", error);
+      alert("Error updating job");
+    }finally{
+      setLoading(prev => ({...prev, updateJob: false}));
     }
   };
 
   const handleButtonClick = () => {
-    navigate("/call-desk");
+    navigate("/jobs-scheduled");
   };
 
   return (
@@ -242,7 +303,7 @@ const CallIssueCreate = () => {
                     <textarea
                       name="Address"
                       type="text"
-                      placeholder="Address"
+                      placeholder="jobs.Address"
                       value={issueData.Address}
                       onChange={handleChange}
                       className="input-field"
@@ -259,6 +320,7 @@ const CallIssueCreate = () => {
                       value={selectedClientId}
                       onChange={handleClientChange}
                       label="Select Client"
+                      placeholder={jobs.Name}
                       disabled={loading.lists}
                     >
                       {allClients.map((client) => (
@@ -284,13 +346,28 @@ const CallIssueCreate = () => {
                       ))}
                     </Select>
                   </FormControl>
+
+                  <FormControl fullWidth>
+                    <InputLabel>Select Status</InputLabel>
+                    <Select
+                      value={selectedStatus}
+                      onChange={handleStatusChange}
+                      label="Select Status"
+                      disabled={loading.lists}>
+                      <MenuItem value="Active">Active</MenuItem> 
+                      <MenuItem value="In Progress">In Progress</MenuItem> 
+                      <MenuItem value="Cancelled">Cancelled</MenuItem> 
+                      <MenuItem value="Complete">Complete</MenuItem>
+
+                    </Select>
+                  </FormControl>
                 </Box>
 
                 <div className="topInfo">
                   <input
                     name="Title"
                     type="text"
-                    placeholder="Call Title"
+                    placeholder={jobs.Title}
                     value={issueData.Title}
                     onChange={handleChange}
                     className="input-field"
@@ -298,7 +375,7 @@ const CallIssueCreate = () => {
                   <input
                     name="Priority"
                     type="text"
-                    placeholder="Priority"
+                    placeholder={jobs.Priority}
                     value={issueData.Priority}
                     onChange={handleChange}
                     className="input-field"
@@ -307,7 +384,7 @@ const CallIssueCreate = () => {
                 <textarea
                   name="Description"
                   type="text"
-                  placeholder="Description"
+                  placeholder={jobs.Description}
                   value={issueData.Description}
                   onChange={handleChange}
                   className="input-field-Big"
@@ -315,45 +392,22 @@ const CallIssueCreate = () => {
                 <input
                   name="Equipment"
                   type="text"
-                  placeholder="Client Equipment:"
+                  placeholder={jobs.Equipment}
                   value={issueData.Equipment}
                   onChange={handleChange}
                   className="input-field"
                 />
-                
-                {loading.service ? (
-                  <CircularProgress />
-                ) : service && (
-                  <div className="input-field-Big">
-                    <Typography variant="h6">Service Agreement</Typography>
-                    <Typography variant="body1">
-                      <strong>Period:</strong> {service.Period}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Equipment:</strong> {service.Equipment}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Renew:</strong> {service.Renew}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Service Cost:</strong> ${service.ServiceCost}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Description:</strong> {service.Description}
-                    </Typography>
-                  </div>
-                )}
 
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={assignTechnician}
-                  disabled={!selectedClientId || !selectedTechnicianId || loading.client || loading.technician}
+                  disabled={loading.updateJob || loading.technician}
                 >
-                  {loading.client || loading.technician ? (
+                  {loading.client || loading.technician || loading.updateJob ? (
                     <CircularProgress size={24} />
                   ) : (
-                    'Assign Technician'
+                    'Update Job'
                   )}
                 </Button>
               </div>
@@ -373,4 +427,4 @@ const CallIssueCreate = () => {
   );
 };
 
-export default CallIssueCreate;
+export default CallIssueUpdate;

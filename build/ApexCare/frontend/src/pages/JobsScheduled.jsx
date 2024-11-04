@@ -3,7 +3,7 @@ import { Typography, TextField } from '@mui/material';
 import Card from "../components/Card";
 import FilterCheck from "../components/checkbox";
 import apexcare2 from "../assets/apexcare-2.png";
-import task from "../assets/tasks.png"
+import task from "../assets/tasks.png";
 import SpinnerImage from '../assets/faviconn.png';
 import { useNavigate } from "react-router-dom";
 import "../styles.css";
@@ -183,7 +183,7 @@ const remove = async(id) => {
               buttons={true}
               onClick={() => handleCardClick(d.JobID)}
               remove={() => remove(d.JobID)}
-              edit ={handleEditClick}
+              edit ={() => handleEditClick(d.JobID)}
             />
           )))}
         </div>

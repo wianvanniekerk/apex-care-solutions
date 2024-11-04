@@ -165,6 +165,33 @@ const AddClient = () => {
                         <label htmlFor="isKeyClientNo">No</label>
                     </div>
                 </div>
+
+                <div className="add-client-field">
+                        <label htmlFor="isBusinessClient">Is Business Client?</label>
+                        <div>
+                          <input
+                            type="radio"
+                            id="isBusinessClientYes"
+                            name="ClientType"
+                            value="yes"
+                            checked={issueData.ClientType === "yes"}
+                            onChange={handleInputChange}
+                            className="ClientType"
+                          />
+                          <label htmlFor="isBusinessClientYes">Yes</label>
+
+                          <input
+                            type="radio"
+                            id="isBusinessClientNo"
+                            name="ClientType"
+                            value="no"
+                            checked={issueData.ClientType === "no"}
+                            onChange={handleInputChange}
+                            className="ClientType"
+                          />
+                          <label htmlFor="isBusinessClientNo">No</label>
+                        </div>
+                      </div>
                
                 <button 
                     type="submit" 

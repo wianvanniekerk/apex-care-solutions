@@ -49,13 +49,13 @@ class ManageJobs {
 
     async createJob(jobData) {
         try {
-            const { technician, client, title, description, address, status, priority } = jobData;
-            const job = new Job(technician, client, title, description, address, status, priority);
+            const { technician, client, title, description, address, status, priority, equipment } = jobData;
+            const job = new Job(technician, client, title, description, address, status, priority, equipment);
             
             const result = await sql.query`
-                INSERT INTO Job (TechnicianID, ClientID, Title, Description, Address, Status, Priority)
+                INSERT INTO Job (TechnicianID, ClientID, Title, Description, Address, Status, Priority, Equipment)
                 OUTPUT INSERTED.JobID
-                VALUES (${technician}, ${client}, ${title}, ${description}, ${address}, ${status}, ${priority})
+                VALUES (${technician}, ${client}, ${title}, ${description}, ${address}, ${status}, ${priority}, ${equipment})
             `;
             
             return { ...job.toJSON(), jobId: result.recordset[0].JobID };
@@ -63,6 +63,8 @@ class ManageJobs {
             throw new Error('Error creating job: ' + error.message);
         }
     }
+
+   
 }
 
 module.exports = ManageJobs;

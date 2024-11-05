@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from '../pages/Home';
 import JobsScheduled from '../pages/JobsScheduled';
 import ServicePackages from '../pages/ServicePackages';
@@ -18,10 +18,14 @@ import EditClient from '../pages/EditClient';
 import { LoginPage } from '../pages/Login';
 import Nav from './Nav';
 
+const NavWrapper = () => { const location = useLocation(); const isLoginPage = location.pathname === '/';
+  return !isLoginPage && <Nav />;
+};
 const AppRouter = () => {
+
   return (
     <Router>
-      <Nav />
+      <NavWrapper />
       <Routes>
         <Route path="" element={<LoginPage />}/>
           <Route path="home" element={<Home />} />

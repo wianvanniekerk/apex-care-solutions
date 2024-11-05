@@ -35,7 +35,7 @@ router.get('/serviceAgreements/:id', async (req,res) => {
 router.post('/add-job', async (req, res) => {
     const { TechnicianID, ClientID, Title, Description, Address, Status, Priority, Equipment } = req.body;
 
-    if (!TechnicianID || !ClientID || !Title || !Description || !Address || !Status || !Priority || Equipment) {
+    if (!TechnicianID || !ClientID || !Title || !Description || !Address || !Status || !Priority || !Equipment) {
         return res.status(400).json({ error: "All fields are required" });
     }
 

@@ -3,6 +3,7 @@ const fs = require('fs');
 const router = express.Router();
 const employeeFile = "./model/employee.json";
 
+//Login validation
 router.post("/login", (req, res) => {
     const {username, password} = req.body;
  

@@ -2,6 +2,8 @@ const sql = require('mssql');
 const Client = require('../model/Client');
 
 class ManageClients {
+
+    //add new Client
     async addNewClient(name, email, address, contact, isKeyClient, ClientType, password) {
         try {
             const result = await sql.query`
@@ -15,6 +17,7 @@ class ManageClients {
         }
     }
 
+    //get All Clients
     async getAllClients() {
         try {
             const result = await sql.query`
@@ -35,6 +38,7 @@ class ManageClients {
         }
     }
 
+    //get Client based on ClientID
     async getClientDetails(clientId) {
         try {
             const result = await sql.query`
@@ -61,6 +65,7 @@ class ManageClients {
         }
     }
 
+    //delete Client
     async removeClient(clientId) {
         try {
             const result = await sql.query`
@@ -72,6 +77,7 @@ class ManageClients {
             throw new Error('Error removing client: ' + error.message);
         }
     }
+
 }
 
 module.exports = ManageClients;

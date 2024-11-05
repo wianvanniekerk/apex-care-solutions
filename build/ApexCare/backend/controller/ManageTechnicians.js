@@ -2,6 +2,7 @@ const sql = require('mssql');
 const Technician = require('../model/Technician');
 
 class ManageTechnicians {
+  //Get specific technician
   async getTechnicianDetails(technicianId) {
     try {
       const result = await sql.query`
@@ -26,6 +27,7 @@ class ManageTechnicians {
     }
   }
 
+  //Get All Technicians
   async getAllTechnicians() {
     try {
       const result = await sql.query`
@@ -45,6 +47,7 @@ class ManageTechnicians {
     }
   }
 
+  //get distinct areas of Technician
   async getTechnicianAreas() {
     try {
         const areasResult = await sql.query`
@@ -70,6 +73,7 @@ class ManageTechnicians {
     }
   }
 
+  //add new Technician
   async addNewTechnician(name, email, contact, expertise, area) {
     try {
         const result = await sql.query`

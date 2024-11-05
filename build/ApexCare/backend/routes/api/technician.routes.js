@@ -4,6 +4,7 @@ const ManageTechnicians = require('../../controller/ManageTechnicians');
 
 const technicianManager = new ManageTechnicians();
 
+//get technician based on TechnicianID
 router.get('/technician/:id', async (req, res) => {
   try {
     const technician = await technicianManager.getTechnicianDetails(req.params.id);
@@ -16,6 +17,7 @@ router.get('/technician/:id', async (req, res) => {
   }
 });
 
+//Get all technicians
 router.get('/Alltechnicians', async (req, res) => {
   try {
     const technicians = await technicianManager.getAllTechnicians();
@@ -25,6 +27,7 @@ router.get('/Alltechnicians', async (req, res) => {
   }
 });
 
+//get all distinct technician areas
 router.get('/TechAreas', async (req, res) => {
   try {
       const result = await technicianManager.getTechnicianAreas();
@@ -34,6 +37,7 @@ router.get('/TechAreas', async (req, res) => {
   }
 });
 
+//add new technician
 router.post('/technicians/add-technician', async (req, res) => {  
   try {
       const { name, email, contact, expertise, area } = req.body;
@@ -56,14 +60,14 @@ router.post('/technicians/add-technician', async (req, res) => {
               error: 'Name must be at least 2 characters long'
           });
       }
-
+//email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
           return res.status(400).json({
               error: 'Please enter a valid email address'
           });
       }
-
+//phone validation
       if (contact.length < 10) {
           return res.status(400).json({
               error: 'Contact number must be at least 10 digits'

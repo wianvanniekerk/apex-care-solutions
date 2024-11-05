@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const sql = require('mssql');
 
+//Get All Jobs joined with Technician Table to get Technician details for each job as well.
 router.get('/getJobs', async(req,res) => {
     try{
       const result = await sql.query("SELECT j.JobID, j.Title, j.Description, j.Address, j.Status, j.Priority, t.Name FROM Job j INNER JOIN Technician t ON j.TechnicianID = t.TechnicianID ORDER BY j.JobID DESC");
@@ -11,6 +12,7 @@ router.get('/getJobs', async(req,res) => {
     }
 });
   
+//Get All distinct statusses from Job
 router.get('/JobStatus', async(req,res) => {
     try{
       const result = await sql.query("SELECT DISTINCT Status FROM Job");
@@ -20,6 +22,7 @@ router.get('/JobStatus', async(req,res) => {
     }
 });
   
+//Get All distinct priorities from Job
 router.get('/JobPriority', async(req,res) => {
     try{
       const result = await sql.query("SELECT DISTINCT Priority FROM Job");
@@ -29,6 +32,7 @@ router.get('/JobPriority', async(req,res) => {
     }
 });
   
+//get Job based on JobID
 router.get('/job/:id', async (req, res) => {
     const JobID = req.params.id;
   
@@ -40,6 +44,7 @@ router.get('/job/:id', async (req, res) => {
     }
 });
   
+//delete Job
 router.delete('/job/:id', async (req, res) => {
     const { id } = req.params;
   
@@ -55,7 +60,7 @@ router.delete('/job/:id', async (req, res) => {
     }
 });
 
-
+//Update Job
 router.put('/update-job/:id', async (req, res) => {
   const { id } = req.params;
   const { TechnicianID, ClientID, Title, Description, Address, Status, Priority, Equipment } = req.body;

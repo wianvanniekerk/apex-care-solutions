@@ -6,6 +6,7 @@ class ManageJobs {
         this.jobs = null;
     }
 
+    //get Technician details for specific technician
     async getTechnicianDetails(technicianId) {
         try {
             const result = await sql.query`
@@ -19,6 +20,7 @@ class ManageJobs {
         }
     }
 
+    //get Client details for specific client
     async getClientDetails(clientId) {
         try {
             const result = await sql.query`
@@ -32,6 +34,7 @@ class ManageJobs {
         }
     }
 
+    //get ServiceAgreements for specific Client
     async getServiceAgreements(clientId) {
         try {
             const result = await sql.query`
@@ -47,6 +50,7 @@ class ManageJobs {
         }
     }
 
+    //add new Job
     async createJob(jobData) {
         try {
             const { technician, client, title, description, address, status, priority, equipment } = jobData;

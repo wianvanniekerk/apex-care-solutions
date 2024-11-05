@@ -5,6 +5,7 @@ const ManageClients = require("../../controller/ManageClients");
 
 const clientManager = new ManageClients();
 
+//get All Clients
 router.get("/getclients", async (req, res) => {
   try {
     const clients = await clientManager.getAllClients();
@@ -14,6 +15,7 @@ router.get("/getclients", async (req, res) => {
   }
 });
 
+//get Client's keyClient statusses
 router.get("/clientIsKeyClient", async (req, res) => {
   try {
     const statuses = await clientManager.getKeyClientStatuses();
@@ -23,6 +25,7 @@ router.get("/clientIsKeyClient", async (req, res) => {
   }
 });
 
+//get Client based on ClientID
 router.get("/Client/:id", async (req, res) => {
   try {
     const client = await clientManager.getClientDetails(req.params.id);
@@ -35,6 +38,7 @@ router.get("/Client/:id", async (req, res) => {
   }
 });
 
+//delete Client
 router.delete("/Client/:id", async (req, res) => {
   try {
     const deleted = await clientManager.removeClient(req.params.id);
@@ -47,7 +51,8 @@ router.delete("/Client/:id", async (req, res) => {
   }
 });
 
-router.put("/update-client/:id", async (req, res) => {
+//update Client
+router.put("/update-client/:id", async (req, res) => { 
   const { id } = req.params;
   const { Name, Address, Email, Phone, isKeyClient, ClientType } = req.body;
 
@@ -81,6 +86,7 @@ router.put("/update-client/:id", async (req, res) => {
   }
 });
 
+//add new Client
 router.post("/client-management/add-client", async (req, res) => {
   try {
     const { name, email, address, contact, isKeyClient, clientType, password } = req.body;
@@ -96,13 +102,13 @@ router.post("/client-management/add-client", async (req, res) => {
         error: `Missing required fields: ${missingFields.join(", ")}`,
       });
     }
-
+//name validation
     if (name.length < 2) {
       return res.status(400).json({
         error: "Name must be at least 2 characters long",
       });
     }
-
+//email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({

@@ -5,6 +5,7 @@ const { sendSMS } = require('../../services/VonageAPI');
 
 const jobManager = new ManageJobs();
 
+//get Client details for specific client
 router.get('/clients/:id', async (req, res) => {
     try {
         const clientDetails = await jobManager.getClientDetails(req.params.id);
@@ -14,6 +15,7 @@ router.get('/clients/:id', async (req, res) => {
     }
 });
 
+//get Technician details for specific technician
 router.get('/technicians/:id', async (req, res) => {
     try {
         const technicianDetails = await jobManager.getTechnicianDetails(req.params.id);
@@ -23,6 +25,7 @@ router.get('/technicians/:id', async (req, res) => {
     }
 });
 
+//get ServiceAgreements for specific Client
 router.get('/serviceAgreements/:id', async (req,res) => {
     try{
         const serviceAgreements = await jobManager.getServiceAgreements(req.params.id);
@@ -32,6 +35,8 @@ router.get('/serviceAgreements/:id', async (req,res) => {
     }
 });
 
+
+ //add new Job
 router.post('/add-job', async (req, res) => {
     const { TechnicianID, ClientID, Title, Description, Address, Status, Priority, Equipment } = req.body;
 

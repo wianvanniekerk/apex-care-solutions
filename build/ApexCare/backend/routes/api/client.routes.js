@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const sql = require('mssql');
 const ManageClients = require("../../controller/ManageClients");
 
 const clientManager = new ManageClients();
@@ -66,20 +67,23 @@ router.put("/update-client/:id", async (req, res) => {
   try {
     const result = await sql.query`
                 UPDATE Client SET Name = ${Name}, Email = ${Email}, Address = ${Address}, isKeyClient = ${isKeyClient}, Phone = ${Phone}, ClientType = ${ClientType}  WHERE ClientID = ${id}`;
+
     console.log("SQL Query Result:", result);
+    
     if (result.rowsAffected[0] > 0) {
       res.json({ message: "Client updated successfully" });
     } else {
       res.status(404).json({ message: "Client not found" });
     }
   } catch (err) {
-    res.status(500).json({ error: "Error updating Client" });
+    console.error("Error during SQL query:", err);
+    res.status(500).json({ error: 'Error updating Client', details: err.message });
   }
 });
 
 router.post("/client-management/add-client", async (req, res) => {
   try {
-    const { name, email, address, contact, isKeyClient, password } = req.body;
+    const { name, email, address, contact, isKeyClient, clientType, password } = req.body;
 
     const missingFields = [];
     if (!name) missingFields.push("Name");
@@ -112,6 +116,7 @@ router.post("/client-management/add-client", async (req, res) => {
       address,
       contact,
       isKeyClient,
+      clientType,
       password
     );
 
@@ -121,6 +126,7 @@ router.post("/client-management/add-client", async (req, res) => {
       });
     }
   } catch (err) {
+    console.error("Error during client creation:", err.message);
     if (err.message.includes("email already exists")) {
       return res.status(400).json({
         error: "A client with this email already exists",

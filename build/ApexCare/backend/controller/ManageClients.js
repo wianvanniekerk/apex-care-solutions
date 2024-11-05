@@ -2,14 +2,15 @@ const sql = require('mssql');
 const Client = require('../model/Client');
 
 class ManageClients {
-    async addNewClient(name, email, address, contact, isKeyClient, password) {
+    async addNewClient(name, email, address, contact, isKeyClient, ClientType, password) {
         try {
             const result = await sql.query`
-                INSERT INTO Client (Name, Email, Phone, Address, IsKeyClient, Password)
-                VALUES (${name}, ${email}, ${contact}, ${address}, ${isKeyClient}, ${password})
+                INSERT INTO Client (Name, Email, Phone, Address, IsKeyClient, ClientType, Password)
+                VALUES (${name}, ${email}, ${contact}, ${address}, ${isKeyClient}, ${ClientType}, ${password})
             `;
             return result.rowsAffected[0] > 0;
         } catch (error) {
+            console.error("Error adding new client:", error.message);
             throw new Error('Error adding new client: ' + error.message);
         }
     }
@@ -17,7 +18,7 @@ class ManageClients {
     async getAllClients() {
         try {
             const result = await sql.query`
-                SELECT ClientID, Name, Email, Phone, Address, IsKeyClient
+                SELECT ClientID, Name, Email, Phone, Address, IsKeyClient, ClientType
                 FROM Client
             `;
             return result.recordset.map(client => new Client(
@@ -26,7 +27,8 @@ class ManageClients {
                 client.Email,
                 client.Phone,
                 client.Address,
-                client.IsKeyClient
+                client.IsKeyClient,
+                client.ClientType
             ));
         } catch (error) {
             throw new Error('Error fetching all clients: ' + error.message);
@@ -36,7 +38,7 @@ class ManageClients {
     async getClientDetails(clientId) {
         try {
             const result = await sql.query`
-                SELECT ClientID, Name, Email, Phone, Address, IsKeyClient
+                SELECT ClientID, Name, Email, Phone, Address, IsKeyClient, ClientType
                 FROM Client
                 WHERE ClientID = ${clientId}
             `;
@@ -49,7 +51,8 @@ class ManageClients {
                     client.Email,
                     client.Phone,
                     client.Address,
-                    client.IsKeyClient
+                    client.IsKeyClient,
+                    client.ClientType
                 );
             }
             return null;

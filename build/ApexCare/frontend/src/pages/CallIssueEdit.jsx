@@ -212,57 +212,51 @@ const CallIssueUpdate = () => {
 
   const assignTechnician = async () => {
     setLoading(prev => ({ ...prev, updateJob: true}));
+  
+    // Use existing job details if priority is not set
+    const priorityToCheck = issueData.Priority || jobs.Priority;
+  
     // Add priority validation
-    if((issueData.Priority === null) || (issueData.Priority === "")){
-      issueData.Priority = jobs.Priority;
-      return
-    }
-    else if (!validatePriority(issueData.Priority)) {
-      alert("Priority must be Low, Medium, or High : "+issueData.Priority);
+    if (!validatePriority(priorityToCheck)) {
+      alert("Priority must be Low, Medium, or High: " + priorityToCheck);
+      setLoading(prev => ({...prev, updateJob: false}));
       return;
     }
-    
-    if (!selectedClientId || !selectedTechnicianId) {
-      alert("Please select both client and technician!");
+  
+    if (!selectedClientId || !selectedTechnicianId || !selectedStatus) {
+      alert("Please select client, technician, and status!");
+      setLoading(prev => ({ ...prev, updateJob: false}));
       return;
     }
-
-    if((issueData.Address === null) || (issueData.Address === "")){
-      issueData.Address = jobs.Address;
-      return
-    }
-
-    if((issueData.Title === null) || (issueData.Title === "")){
-      issueData.Title = jobs.Title;
-      return
-    }
-
-    if((issueData.Description === null) || (issueData.Description === "")){
-      issueData.Description = jobs.Description;
-      return
-    }
-
-    if((issueData.Equipment === null) || (issueData.Equipment === "")){
-      issueData.Equipment = jobs.Equipment;
-      return
-    }
-
+  
+    // Use existing job details if fields are not set
+    const submissionData = {
+      ...issueData,
+      Address: issueData.Address || jobs.Address,
+      Title: issueData.Title || jobs.Title,
+      Description: issueData.Description || jobs.Description,
+      Equipment: issueData.Equipment || jobs.Equipment,
+      Priority: issueData.Priority || jobs.Priority,
+      TechnicianID: selectedTechnicianId,
+      ClientID: selectedClientId,
+      Status: selectedStatus,
+    };
+  
+    console.log("Submission Data:", submissionData); // Log the data being submitted
+  
     try {
-      const response = await axios.put(`http://localhost:8081/update-job/${id}`, {
-        ...issueData,
-        TechnicianID: selectedTechnicianId,
-        ClientID: selectedClientId,
-        Status: selectedStatus,
-      });
+      const response = await axios.put(`http://localhost:8081/update-job/${id}`, submissionData);
+  
       console.log("Job updated successfully:", response.data);
       alert("Job updated successfully!");
     } catch (error) {
-      console.error("Error updating job:", error);
-      alert("Error updating job");
-    }finally{
-      setLoading(prev => ({...prev, updateJob: false}));
+      console.error("Error updating job:", error); // Log detailed error information
+      alert("Error updating job: " + (error.response?.data?.error || error.message));
+    } finally {
+      setLoading(prev => ({ ...prev, updateJob: false }));
     }
   };
+  
 
   const handleButtonClick = () => {
     navigate("/jobs-scheduled");

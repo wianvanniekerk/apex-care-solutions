@@ -76,6 +76,7 @@ const ClientDetails = () => {
         <p>{Clients.Address}</p>
         <p>{Clients.Phone}</p>
         <p>{IsKeyClient()}</p>
+        <p>Client Type: {Clients.ClientType}</p>
         </div>
         
         </CardContent>

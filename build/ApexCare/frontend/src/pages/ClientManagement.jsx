@@ -13,7 +13,7 @@ import axios from "axios";
 const ClientManagement = () => {
 const [clients, setclients] = useState([]);
 const [filteredclients, setFilteredclients] = useState([]);
-const [filters, setFilters] = useState({IsKeyClient:[], Area:[], searchTerm:"" });
+const [filters, setFilters] = useState({IsKeyClient:[], Area:[], searchTerm:"" , ClientType:[]});
 const [loading, setLoading] = useState({clients: false});
 const navigate = useNavigate();
 
@@ -53,7 +53,7 @@ const handleFilterChange = (event) => {
   const {name, value, checked} = event.target;
   setFilters((prevFilters) => {
     let newFilters = { ...prevFilters};
-    if(name === "IsKeyClient"  ){
+    if(name === "IsKeyClient" || name === "ClientType" ){
       if (checked) {
         newFilters[name] = [...newFilters[name], value];
       }else{
@@ -70,6 +70,10 @@ const applyFilters = () => {
   let filteredList = clients;
   if(filters.IsKeyClient.length > 0){
     filteredList = filteredList.filter((clients) => filters.IsKeyClient.includes(String(clients.IsKeyClient)));
+  }
+
+  if(filters.ClientType.length>0){
+    filteredList = filteredList.filter((clients)=> filters.ClientType.includes(clients.ClientType));
   }
 
   if (filters.Name) {
@@ -127,6 +131,22 @@ const remove = async(id) => {
             value="false"
             onChange={handleFilterChange}
             label="false"
+          />
+          
+          </div>
+          <div>
+          <h3 >Client Type</h3>
+          <FilterCheck
+            name="ClientType"
+            value="Business"
+            onChange={handleFilterChange}
+            label="Business"
+          />
+          <FilterCheck
+            name="ClientType"
+            value="Regular"
+            onChange={handleFilterChange}
+            label="Regular"
           />
           
           </div>

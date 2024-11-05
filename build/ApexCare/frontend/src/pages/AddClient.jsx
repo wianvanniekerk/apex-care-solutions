@@ -12,6 +12,7 @@ const AddClient = () => {
         address: '',
         contact: '',
         isKeyClient: 'yes',
+        ClientType: 'no',
         password: 'none'
     });
 
@@ -40,7 +41,8 @@ const AddClient = () => {
 
         const submissionData = {
             ...formData,
-            isKeyClient: formData.isKeyClient === 'yes' ? 1 : 0
+            isKeyClient: formData.isKeyClient === 'yes' ? 1 : 0,
+            ClientType: formData.ClientType === 'yes' ? 'Business' : 'Regular'
         };
     
         try {
@@ -65,6 +67,7 @@ const AddClient = () => {
                 address: '',
                 contact: '',
                 isKeyClient: 'yes',
+                ClientType: 'no',
                 password: 'none'
             });
     
@@ -174,7 +177,7 @@ const AddClient = () => {
                             id="isBusinessClientYes"
                             name="ClientType"
                             value="yes"
-                            checked={issueData.ClientType === "yes"}
+                            checked={formData.ClientType === "yes"}
                             onChange={handleInputChange}
                             className="ClientType"
                           />
@@ -185,7 +188,7 @@ const AddClient = () => {
                             id="isBusinessClientNo"
                             name="ClientType"
                             value="no"
-                            checked={issueData.ClientType === "no"}
+                            checked={formData.ClientType === "no"}
                             onChange={handleInputChange}
                             className="ClientType"
                           />

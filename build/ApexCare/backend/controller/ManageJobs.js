@@ -22,7 +22,7 @@ class ManageJobs {
     async getClientDetails(clientId) {
         try {
             const result = await sql.query`
-                SELECT ClientID, Name, Email, Phone, Address, IsKeyClient 
+                SELECT ClientID, Name, Email, Phone, Address, IsKeyClient, ClientType 
                 FROM Client 
                 WHERE ClientID = ${clientId}
             `;

@@ -25,6 +25,7 @@ const handleEditClick = (id) => {
   navigate(`./client-edit/${id}`);
 };
 
+//for async await
 const fetchclients = async () => {
   try {
     const response = await axios.get("http://localhost:8081/getclients");
@@ -35,6 +36,7 @@ const fetchclients = async () => {
   }
 };
 
+//get all clients
 useEffect(() => {
   setLoading({ clients: true});
   fetch("http://localhost:8081/getclients")
@@ -49,6 +51,7 @@ useEffect(() => {
   applyFilters();
 }, [filters]);
 
+//When filters are applied, handle the filters
 const handleFilterChange = (event) => {
   const {name, value, checked} = event.target;
   setFilters((prevFilters) => {
@@ -66,6 +69,7 @@ const handleFilterChange = (event) => {
   });
 };
 
+//Apply the filters and update the output
 const applyFilters = () => {
   let filteredList = clients;
   if(filters.IsKeyClient.length > 0){

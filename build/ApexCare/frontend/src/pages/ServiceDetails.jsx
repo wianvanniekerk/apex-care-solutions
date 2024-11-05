@@ -13,6 +13,7 @@ const ServiceDetails = () => {
   const [Services, setServices] = useState(null);
   const navigate = useNavigate();
 
+  //get service package details based on serviceID
   useEffect(() => {
     const fetchServiceDetails = async () => {
       try {

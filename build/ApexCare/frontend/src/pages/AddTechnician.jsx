@@ -26,7 +26,7 @@ const AddTechnician = () => {
         e.preventDefault();
         setError(null);
         setLoading(true);
-    
+    //add new technician
         try {
             const response = await fetch('http://localhost:8081/technicians/add-technician', {
                 method: 'POST',

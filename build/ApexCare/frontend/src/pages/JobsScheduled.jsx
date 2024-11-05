@@ -26,6 +26,7 @@ const handleEditClick = (id) => {
   navigate(`./job-edit/${id}`);
 };
 
+//for async await
 const fetchJobs = async () => {
   try {
     const response = await axios.get("http://localhost:8081/getJobs");
@@ -36,6 +37,7 @@ const fetchJobs = async () => {
   }
 };
 
+//get all jobs
 useEffect(() => {
   setLoading({ jobs: true});
   fetch("http://localhost:8081/getJobs")
@@ -45,6 +47,7 @@ useEffect(() => {
     .finally(() => setLoading({ jobs: false }));
 }, []);
 
+//get distinct job statusses
 useEffect(() => {
   fetch("http://localhost:8081/JobStatus")
     .then((res) => res.json())
@@ -52,6 +55,7 @@ useEffect(() => {
     .catch((err) => console.log(err));
 }, []);
 
+//get distinct job priorities
 useEffect(() => {
   fetch("http://localhost:8081/JobPriority")
     .then((res) => res.json())
@@ -63,6 +67,7 @@ useEffect(() => {
   applyFilters();
 }, [filters]);
 
+//When filters are applied, handle the filters
 const handleFilterChange = (event) => {
   const {name, value, checked} = event.target;
   setFilters((prevFilters) => {
@@ -80,6 +85,7 @@ const handleFilterChange = (event) => {
   });
 };
 
+//Apply the filters and update the output
 const applyFilters = () => {
   let filteredList = jobs;
   if(filters.Status.length > 0){

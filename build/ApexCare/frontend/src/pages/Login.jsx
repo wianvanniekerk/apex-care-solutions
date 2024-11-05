@@ -19,6 +19,7 @@ export const LoginPage = () => {
       e.preventDefault();
       setIsLoading(true);
 
+      //try to log in user based on credentials
       try{
         const response = await axios.post('http://localhost:8081/login', {username, password});
         setMessage(response.data.message);

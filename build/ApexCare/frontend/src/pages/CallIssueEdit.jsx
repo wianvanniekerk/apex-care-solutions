@@ -42,7 +42,7 @@ const CallIssueUpdate = () => {
   
   const navigate = useNavigate();
 
-
+//get All Clients and All Technicians to be displayed
   useEffect(() => {
     const fetchLists = async () => {
       setLoading(prev => ({ ...prev, lists: true }));
@@ -70,6 +70,7 @@ const CallIssueUpdate = () => {
     fetchLists();
   }, []);
 
+  //get job details for specific job
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
@@ -105,6 +106,7 @@ const CallIssueUpdate = () => {
         service: null 
       }));
 
+      //Get client details and service agreements for specific client
       try {
         const [clientResponse, serviceResponse] = await Promise.all([
           axios.get(`http://localhost:8081/clients/${selectedClientId}`),
@@ -151,6 +153,7 @@ const CallIssueUpdate = () => {
       setLoading(prev => ({ ...prev, technician: true }));
       setError(prev => ({ ...prev, technician: null }));
 
+      //get Job's assigned technician
       try {
         const response = await axios.get(`http://localhost:8081/technicians/${selectedTechnicianId}`);
         setTechnician(response.data);
@@ -243,14 +246,15 @@ const CallIssueUpdate = () => {
     };
   
     console.log("Submission Data:", submissionData); // Log the data being submitted
-  
+
+  //update Job/Issue
     try {
       const response = await axios.put(`http://localhost:8081/update-job/${id}`, submissionData);
   
       console.log("Job updated successfully:", response.data);
       alert("Job updated successfully!");
     } catch (error) {
-      console.error("Error updating job:", error); // Log detailed error information
+      console.error("Error updating job:", error); 
       alert("Error updating job: " + (error.response?.data?.error || error.message));
     } finally {
       setLoading(prev => ({ ...prev, updateJob: false }));

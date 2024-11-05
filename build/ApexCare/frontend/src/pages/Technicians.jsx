@@ -22,6 +22,7 @@ const handleCardClick = (id) => {
   navigate(`./technician-details/${id}`);
 };
 
+//get all Technicians
 useEffect(() => {
   setLoading({ technicians: true});
   fetch("http://localhost:8081/Alltechnicians")
@@ -31,6 +32,7 @@ useEffect(() => {
     .finally(() => setLoading({ technicians: false }));
 }, []);
 
+//get distinct technician areas
 useEffect(() => {
   fetch("http://localhost:8081/TechAreas")
       .then((res) => res.json())
@@ -45,6 +47,7 @@ useEffect(() => {
   applyFilters();
 }, [filters]);
 
+//When filters are applied, handle the filters
 const handleFilterChange = (event) => {
   const {name, value, checked} = event.target;
   setFilters((prevFilters) => {
@@ -62,6 +65,7 @@ const handleFilterChange = (event) => {
   });
 };
 
+//Apply the filters and update the output
 const applyFilters = () => {
   let filteredList = technicians;
   if(filters.Area.length > 0){

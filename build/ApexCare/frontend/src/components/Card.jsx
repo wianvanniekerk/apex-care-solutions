@@ -10,6 +10,7 @@ import "../styles.css";
 
 const Card = ({ name, first, second, img, priority, level, buttons, onClick, remove, edit }) => {
 
+  //check priority
   function Getpriority(){
     if(priority === "High"){
       return red;
@@ -21,6 +22,7 @@ const Card = ({ name, first, second, img, priority, level, buttons, onClick, rem
     }
   }
 
+//check level
   function Getlevel(){
     if(level === "Gold"){
       return gold;
@@ -33,6 +35,7 @@ const Card = ({ name, first, second, img, priority, level, buttons, onClick, rem
     }
   }
 
+  //buttons for edit and delete
   function GetButtonsTrue(){
     if(buttons === true){
       return "block";
@@ -40,7 +43,7 @@ const Card = ({ name, first, second, img, priority, level, buttons, onClick, rem
   }
 
   const handleRemove = (e) => {
-    e.stopPropagation(); // Prevent the click from propagating to the card itself
+    e.stopPropagation(); // so that the card is not clicked on its own
     const confirmRemove = window.confirm("Are you sure you want to remove this?");
     if (confirmRemove) {
       remove();

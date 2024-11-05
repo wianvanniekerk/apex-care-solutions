@@ -25,7 +25,7 @@ const handleEditClick = (id) => {
   navigate(`./service-edit/${id}`);
 };
 
-
+//get  all services
 useEffect(() => {
   setLoading({ services: true});
   fetch("http://localhost:8081/getService")
@@ -35,6 +35,7 @@ useEffect(() => {
     .finally(() => setLoading({ services: false }));
 }, []);
 
+//get distinct service statusses
 useEffect(() => {
   fetch("http://localhost:8081/ServiceStatus")
     .then((res) => res.json())
@@ -42,6 +43,7 @@ useEffect(() => {
     .catch((err) => console.log(err));
 }, []);
 
+//get distinct service renew statusses
 useEffect(() => {
   fetch("http://localhost:8081/ServiceRenew")
     .then((res) => res.json())
@@ -53,6 +55,7 @@ useEffect(() => {
   applyFilters();
 }, [filters]);
 
+//When filters are applied, handle the filters
 const handleFilterChange = (event) => {
   const {name, value, checked} = event.target;
   setFilters((prevFilters) => {
@@ -70,6 +73,7 @@ const handleFilterChange = (event) => {
   });
 };
 
+//Apply the filters and update the output
 const applyFilters = () => {
   let filteredList = Service;
   if(filters.Status.length > 0){

@@ -54,6 +54,7 @@ const CallIssueCreate = () => {
       setLoading(prev => ({ ...prev, lists: true }));
       setError(prev => ({ ...prev, lists: null }));
       
+      //get All Clients and All Technicians to be displayed
       try {
         const [clientsResponse, techniciansResponse] = await Promise.all([
           axios.get("http://localhost:8081/getclients"),
@@ -94,7 +95,7 @@ const CallIssueCreate = () => {
         client: null, 
         service: null 
       }));
-
+//Get client details and service agreements for specific client
       try {
         const [clientResponse, serviceResponse] = await Promise.all([
           axios.get(`http://localhost:8081/clients/${selectedClientId}`),
@@ -136,7 +137,7 @@ const CallIssueCreate = () => {
 
       setLoading(prev => ({ ...prev, technician: true }));
       setError(prev => ({ ...prev, technician: null }));
-
+//add new Job/Issue
       try {
         const response = await axios.get(`http://localhost:8081/technicians/${selectedTechnicianId}`);
         setTechnician(response.data);
@@ -154,6 +155,7 @@ const CallIssueCreate = () => {
     fetchTechnicianDetails();
   }, [selectedTechnicianId]);
 
+  //check Priority equals either Low Medium or High
   const validatePriority = (Priority) => {
     return ((Priority === "Low") || (Priority === "Medium") || (Priority === "High"));
   }

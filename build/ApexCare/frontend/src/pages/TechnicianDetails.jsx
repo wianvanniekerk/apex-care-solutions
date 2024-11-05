@@ -14,6 +14,7 @@ const TechnicianDetails = () => {
   const [technicians, setTechnician] = useState(null);
     const navigate = useNavigate();
 
+    //get technician details based on technicianID
     useEffect(() => {
       const fetchTechnicianDetails = async() => {
         try{

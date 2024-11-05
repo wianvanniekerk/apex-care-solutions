@@ -9,10 +9,11 @@ import axios from "axios";
 import "../styles.css";
 
 const ClientDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams(); //get clientID form parameters
   const [Clients, setClient] = useState(null);
     const navigate = useNavigate();
 
+    //get client details for specific client
     useEffect(() => {
       const fetchClientDetails = async() => {
         try{

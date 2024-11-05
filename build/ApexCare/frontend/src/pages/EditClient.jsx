@@ -36,7 +36,7 @@ const EditClient = () => {
 
   const navigate = useNavigate();
 
-
+//get client details for specific client
   useEffect(() => {
     const fetchclientDetails = async () => {
       try {
@@ -91,19 +91,20 @@ const EditClient = () => {
 
   const updateClient = async () => {
     setLoading((prev) => ({ ...prev, updateclient: true }));
-
+//use existing job details if fields are not set
     issueData.Address = issueData.Address || clients.Address; 
     issueData.Name = issueData.Name || clients.Name; 
     issueData.Phone = issueData.Phone || clients.Phone; 
     issueData.Email = issueData.Email || clients.Email;
 
+    //check phone number valid
    if (!validatePhoneNumber(issueData.Phone)) {
         setError('Invalid phone number. It should start with + and be 12 characters long.');
         setLoading(false);
         return;
     }
     
-    // Set database values for isKeyClient and ClientType 
+    //set database values for isKeyClient and ClientType 
     const submissionData = { ...issueData, 
         isKeyClient: issueData.isKeyClient === 'yes' ? 1 : 0, 
         ClientType: issueData.ClientType === 'yes' ? 'Business' : 'Regular', };

@@ -17,6 +17,7 @@ const JobDetails = () => {
   const [jobs, setJobs] = useState(null);
   const navigate = useNavigate();
 
+  //get job details for specific job
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
@@ -49,6 +50,7 @@ const JobDetails = () => {
     navigate("/jobs-scheduled");
   };
 
+  //check priority of job
   const getPriorityBookmark = (priority) => {
     switch (priority) {
       case "High":
